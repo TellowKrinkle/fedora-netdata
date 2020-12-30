@@ -96,6 +96,7 @@ BuildRequires:  libcap-devel
 # For tests
 BuildRequires:  openssl
 Provides: bundled(libwebsockets) = %{lws_version}
+%else
 BuildRequires:  libwebsockets-devel
 %endif
 %if %{with bundledmosquitto}
