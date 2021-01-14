@@ -46,7 +46,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see LICENSE-REDISTRIBUTED.md
 License:        GPLv3 and GPLv3+ and ASL 2.0 and CC-BY and MIT and WTFPL 
@@ -329,6 +329,9 @@ echo "curl -o /etc/netdata/netdata.conf http://localhost:19999/netdata.conf"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Thu Jan 14 08:31:40 CET 2021 Adrian Reber <adrian@lisas.de> - 1.28.0-3
+- Rebuilt for protobuf 3.14
+
 * Wed Dec 23 2020 Didier Fabert <didier.fabert@gmail.com> 1.28.0-2
 - Re-enable cloud client
 - Un-blundle libwebsockets (using lib from system) on fedora only
