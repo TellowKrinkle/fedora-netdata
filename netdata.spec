@@ -28,7 +28,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.28.0
+%global upver        1.29.0
 #global rcver        rc0
 
 # libwebsockets in Fedora 33: 4.1.2
@@ -46,7 +46,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see LICENSE-REDISTRIBUTED.md
 License:        GPLv3 and GPLv3+ and ASL 2.0 and CC-BY and MIT and WTFPL 
@@ -55,11 +55,12 @@ Source0:        https://github.com/%{name}/%{name}/archive/v%{upver}%{?rcver:-%{
 Source1:        netdata.tmpfiles.conf
 Source2:        netdata.init
 Source3:        netdata.conf
+Source4:        netdata.profile
 # used only if with bundledlws is true, but must be present anyway to build complete srpm
 Source10:       https://github.com/warmcat/libwebsockets/archive/v%{lws_version}/libwebsockets-%{lws_version}.tar.gz
 # used only if with bundledmosquitto is true, but must be present anyway to build complete srpm
 Source11:       https://github.com/netdata/mosquitto/archive/v.%{mosquitto_version}%{mosquitto_patch}/mosquitto-%{mosquitto_version}%{mosquitto_patch}.tar.gz
-Patch0:         netdata-fix-shebang-1.27.0.patch
+Patch0:         netdata-fix-shebang-1.29.0.patch
 %if 0%{?fedora}
 # Remove embedded font
 Patch10:        netdata-remove-fonts-1.19.0.patch
@@ -258,6 +259,13 @@ rm -rf %{buildroot}%{_datadir}/%{name}/web/.well-known
 # Delete useless file (ubuntu)
 rm -f %{buildroot}%{_sysconfdir}/%{name}/conf.d/ebpf_kernel_reject_list.txt
 
+for dir in charts.d health.d python.d statsd.d ; do
+  mkdir -p %{buildroot}%{_sysconfdir}/%{name}/${dir}
+done
+
+mkdir -p %{buildroot}%{_sysconfdir}/profile.d
+install -p -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/profile.d/netdata.sh
+
 %check
 make tests
 
@@ -266,9 +274,11 @@ getent group netdata > /dev/null || groupadd -r netdata
 getent passwd netdata > /dev/null || useradd -r -g netdata -c "NetData User" -s /sbin/nologin -d /var/log/%{name} netdata
 
 %post
+sed -i -e '/web files group/ s/root/netdata/' /etc/netdata/netdata.conf ||:
 %systemd_post %{name}.service
 echo "The current config file can be downloaded with the following command"
 echo "curl -o /etc/netdata/netdata.conf http://localhost:19999/netdata.conf"
+echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 %preun
 %systemd_preun %{name}.service
@@ -282,7 +292,7 @@ echo "curl -o /etc/netdata/netdata.conf http://localhost:19999/netdata.conf"
 %{_sbindir}/%{name}
 %{_sbindir}/%{name}-claim.sh
 %{_sbindir}/%{name}cli
-%{_libexecdir}/%{name}
+%{_libexecdir}/%{name}/*
 %{_unitdir}/%{name}.service
 %{_tmpfilesdir}/%{name}.conf
 %caps(cap_dac_read_search,cap_sys_ptrace=ep) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/apps.plugin
@@ -293,6 +303,7 @@ echo "curl -o /etc/netdata/netdata.conf http://localhost:19999/netdata.conf"
 %if %{with cups}
 %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/cups.plugin
 %endif
+%exclude %{_libexecdir}/%{name}/edit-config
 %exclude %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 %attr(0755, netdata, netdata) %{_localstatedir}/lib/%{name}
 %attr(0755, netdata, netdata) %dir %{_localstatedir}/cache/%{name}
@@ -303,18 +314,25 @@ echo "curl -o /etc/netdata/netdata.conf http://localhost:19999/netdata.conf"
 %doc README.md
 %license LICENSE REDISTRIBUTED.md
 %dir %{_sysconfdir}/%{name}
+%dir %{_sysconfdir}/%{name}/charts.d
+%dir %{_sysconfdir}/%{name}/health.d
+%dir %{_sysconfdir}/%{name}/python.d
+%dir %{_sysconfdir}/%{name}/statsd.d
 %dir %{_sysconfdir}/%{name}/conf.d
 %dir %{_sysconfdir}/%{name}/conf.d/charts.d
 %dir %{_sysconfdir}/%{name}/conf.d/health.d
 %dir %{_sysconfdir}/%{name}/conf.d/python.d
 %dir %{_sysconfdir}/%{name}/conf.d/statsd.d
-%config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
-%config(noreplace) %{_sysconfdir}/%{name}/conf.d/*.conf
-%config(noreplace) %{_sysconfdir}/%{name}/conf.d/charts.d/*.conf
-%config(noreplace) %{_sysconfdir}/%{name}/conf.d/health.d/*.conf
-%config(noreplace) %{_sysconfdir}/%{name}/conf.d/python.d/*.conf
-%config(noreplace) %{_sysconfdir}/%{name}/conf.d/statsd.d/*.conf
-%config(noreplace) %{_sysconfdir}/logrotate.d/netdata
+%config %{_sysconfdir}/%{name}/%{name}.conf
+%config %{_sysconfdir}/%{name}/conf.d/*.conf
+%config %{_sysconfdir}/%{name}/conf.d/charts.d/*.conf
+%config %{_sysconfdir}/%{name}/conf.d/health.d/*.conf
+%config %{_sysconfdir}/%{name}/conf.d/python.d/*.conf
+%config %{_sysconfdir}/%{name}/conf.d/statsd.d/*.conf
+%config %{_sysconfdir}/logrotate.d/netdata
+%config %{_sysconfdir}/profile.d/netdata.sh
+%dir %{_libexecdir}/%{name}
+%{_libexecdir}/%{name}/edit-config
 
 %files data
 %doc README.md
@@ -329,11 +347,10 @@ echo "curl -o /etc/netdata/netdata.conf http://localhost:19999/netdata.conf"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
-* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.28.0-4
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
-
-* Thu Jan 14 08:31:40 CET 2021 Adrian Reber <adrian@lisas.de> - 1.28.0-3
-- Rebuilt for protobuf 3.14
+* Fri Feb 05 2021 Didier Fabert <didier.fabert@gmail.com> 1.29.0-2
+- Update from upstream
+- Add profile file
+- Move edit-config from netdata package to netdata-conf
 
 * Wed Dec 23 2020 Didier Fabert <didier.fabert@gmail.com> 1.28.0-2
 - Re-enable cloud client
