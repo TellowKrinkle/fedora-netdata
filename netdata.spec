@@ -28,7 +28,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.29.0
+%global upver        1.29.1
 #global rcver        rc0
 
 # libwebsockets in Fedora 33: 4.1.2
@@ -248,7 +248,7 @@ mkdir -p %{buildroot}%{_localstatedir}/cache/%{name}
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 install -p -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/%{name}/
 install -p -m 0644 system/netdata.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
-# Conf files must be in /etc, dixit FHS 
+# Conf files must be in /etc, dixit FHS and it's better in a noarch pkg 
 mv %{buildroot}%{_libdir}/%{name}/conf.d %{buildroot}%{_sysconfdir}/%{name}/
 # Scripts must not be in /etc
 mv %{buildroot}%{_sysconfdir}/%{name}/edit-config %{buildroot}%{_libexecdir}/%{name}/edit-config
@@ -347,7 +347,10 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
-* Fri Feb 05 2021 Didier Fabert <didier.fabert@gmail.com> 1.29.0-2
+* Thu Feb 11 2021 Didier Fabert <didier.fabert@gmail.com> 1.29.1-1
+- Update from upstream
+
+* Fri Feb 05 2021 Didier Fabert <didier.fabert@gmail.com> 1.29.0-1
 - Update from upstream
 - Add profile file
 - Move edit-config from netdata package to netdata-conf
