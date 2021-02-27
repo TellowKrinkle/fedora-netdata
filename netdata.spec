@@ -28,7 +28,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.29.2
+%global upver        1.29.3
 #global rcver        rc0
 
 # libwebsockets in Fedora 33: 4.1.2
@@ -347,6 +347,9 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Sat Feb 27 2021 Didier Fabert <didier.fabert@gmail.com> 1.29.3-1
+- Update from upstream
+
 * Fri Feb 19 2021 Didier Fabert <didier.fabert@gmail.com> 1.29.2-1
 - Update from upstream
 
