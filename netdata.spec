@@ -28,7 +28,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.29.3
+%global upver        1.30.0
 #global rcver        rc0
 
 # libwebsockets in Fedora 33: 4.1.2
@@ -46,7 +46,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see LICENSE-REDISTRIBUTED.md
 License:        GPLv3 and GPLv3+ and ASL 2.0 and CC-BY and MIT and WTFPL 
@@ -257,7 +257,7 @@ sed -i -e 's/\r//' %{buildroot}%{_datadir}/%{name}/web/lib/tableExport-1.6.0.min
 # Delete useless hidden dir
 rm -rf %{buildroot}%{_datadir}/%{name}/web/.well-known
 # Delete useless file (ubuntu)
-rm -f %{buildroot}%{_sysconfdir}/%{name}/conf.d/ebpf_kernel_reject_list.txt
+rm -f %{buildroot}%{_sysconfdir}/%{name}/conf.d/ebpf.d/ebpf_kernel_reject_list.txt
 
 for dir in charts.d health.d python.d statsd.d ; do
   mkdir -p %{buildroot}%{_sysconfdir}/%{name}/${dir}
@@ -323,12 +323,14 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %dir %{_sysconfdir}/%{name}/conf.d/health.d
 %dir %{_sysconfdir}/%{name}/conf.d/python.d
 %dir %{_sysconfdir}/%{name}/conf.d/statsd.d
+%dir %{_sysconfdir}/%{name}/conf.d/ebpf.d
 %config %{_sysconfdir}/%{name}/%{name}.conf
 %config %{_sysconfdir}/%{name}/conf.d/*.conf
 %config %{_sysconfdir}/%{name}/conf.d/charts.d/*.conf
 %config %{_sysconfdir}/%{name}/conf.d/health.d/*.conf
 %config %{_sysconfdir}/%{name}/conf.d/python.d/*.conf
 %config %{_sysconfdir}/%{name}/conf.d/statsd.d/*.conf
+%config %{_sysconfdir}/%{name}/conf.d/ebpf.d/*.conf
 %config %{_sysconfdir}/logrotate.d/netdata
 %config %{_sysconfdir}/profile.d/netdata.sh
 %dir %{_libexecdir}/%{name}
@@ -347,6 +349,9 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Thu Apr 01 2021 Didier Fabert <didier.fabert@gmail.com> 1.30.0-1
+- Update from upstream
+
 * Tue Mar 02 2021 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.29.3-2
 - Rebuilt for updated systemd-rpm-macros
   See https://pagure.io/fesco/issue/2583.
