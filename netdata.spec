@@ -28,7 +28,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.30.1
+%global upver        1.31.0
 #global rcver        rc0
 
 # libwebsockets in Fedora 33: 4.1.2
@@ -46,7 +46,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see LICENSE-REDISTRIBUTED.md
 License:        GPLv3 and GPLv3+ and ASL 2.0 and CC-BY and MIT and WTFPL 
@@ -60,10 +60,10 @@ Source4:        netdata.profile
 Source10:       https://github.com/warmcat/libwebsockets/archive/v%{lws_version}/libwebsockets-%{lws_version}.tar.gz
 # used only if with bundledmosquitto is true, but must be present anyway to build complete srpm
 Source11:       https://github.com/netdata/mosquitto/archive/v.%{mosquitto_version}%{mosquitto_patch}/mosquitto-%{mosquitto_version}%{mosquitto_patch}.tar.gz
-Patch0:         netdata-fix-shebang-1.29.0.patch
+Patch0:         netdata-fix-shebang-1.31.0.patch
 %if 0%{?fedora}
 # Remove embedded font
-Patch10:        netdata-remove-fonts-1.19.0.patch
+Patch10:        netdata-remove-fonts-1.31.0.patch
 %endif
 
 BuildRequires:  zlib-devel
@@ -287,7 +287,7 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %systemd_postun_with_restart %{name}.service
 
 %files
-%doc README.md CHANGELOG.md CODE_OF_CONDUCT.md CONTRIBUTORS.md HISTORICAL_CHANGELOG.md
+%doc README.md CHANGELOG.md HISTORICAL_CHANGELOG.md BREAKING_CHANGES.md BUILD.md
 %license LICENSE REDISTRIBUTED.md
 %{_sbindir}/%{name}
 %{_sbindir}/%{name}-claim.sh
@@ -349,6 +349,9 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Wed May 19 2021 Didier Fabert <didier.fabert@gmail.com> 1.31.0-1
+- Update from upstream
+
 * Tue Apr 27 2021 Didier Fabert <didier.fabert@gmail.com> 1.30.1-2
 - Fix pre script, must be run before installing netdata-data package
 

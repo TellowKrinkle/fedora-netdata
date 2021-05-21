@@ -1,0 +1,40 @@
+diff -rup a/web/gui/dashboard/Makefile.am b/web/gui/dashboard/Makefile.am
+--- a/web/gui/dashboard/Makefile.am	2021-05-19 13:36:47.000000000 +0200
++++ b/web/gui/dashboard/Makefile.am	2021-05-19 20:05:17.473963841 +0200
+@@ -163,36 +163,3 @@ dist_webstaticjs_DATA = \
+     static/js/runtime-main.6c7b39cd.js \
+     static/js/runtime-main.6c7b39cd.js.map \
+     $(NULL)
+-
+-webstaticmediadir=$(webdir)/static/media
+-dist_webstaticmedia_DATA = \
+-    static/media/ibm-plex-sans-latin-100.245539db.woff2 \
+-    static/media/ibm-plex-sans-latin-100.9a582f3a.woff \
+-    static/media/ibm-plex-sans-latin-100italic.1ea7c5d2.woff \
+-    static/media/ibm-plex-sans-latin-100italic.3c34cf08.woff2 \
+-    static/media/ibm-plex-sans-latin-200.67524c36.woff \
+-    static/media/ibm-plex-sans-latin-200.bf72c841.woff2 \
+-    static/media/ibm-plex-sans-latin-200italic.52df2560.woff \
+-    static/media/ibm-plex-sans-latin-200italic.bbc2d552.woff2 \
+-    static/media/ibm-plex-sans-latin-300.10bb6a0a.woff \
+-    static/media/ibm-plex-sans-latin-300.9e1c48af.woff2 \
+-    static/media/ibm-plex-sans-latin-300italic.c76f2ab5.woff2 \
+-    static/media/ibm-plex-sans-latin-300italic.d3566d5b.woff \
+-    static/media/ibm-plex-sans-latin-400.263d6267.woff2 \
+-    static/media/ibm-plex-sans-latin-400.a2c56f94.woff \
+-    static/media/ibm-plex-sans-latin-400italic.272f8611.woff \
+-    static/media/ibm-plex-sans-latin-400italic.89a93a1b.woff2 \
+-    static/media/ibm-plex-sans-latin-500.0866c244.woff2 \
+-    static/media/ibm-plex-sans-latin-500.f6d5c5d5.woff \
+-    static/media/ibm-plex-sans-latin-500italic.ccd41bd1.woff \
+-    static/media/ibm-plex-sans-latin-500italic.ffd12d59.woff2 \
+-    static/media/ibm-plex-sans-latin-600.337b1651.woff \
+-    static/media/ibm-plex-sans-latin-600.7852d4dc.woff2 \
+-    static/media/ibm-plex-sans-latin-600italic.17e5379f.woff2 \
+-    static/media/ibm-plex-sans-latin-600italic.6f4ba6aa.woff \
+-    static/media/ibm-plex-sans-latin-700.b8809d61.woff \
+-    static/media/ibm-plex-sans-latin-700.c9983d3d.woff2 \
+-    static/media/ibm-plex-sans-latin-700italic.02954bee.woff2 \
+-    static/media/ibm-plex-sans-latin-700italic.72e9af40.woff \
+-    static/media/material-icons.0509ab09.woff2 \
+-    $(NULL)
