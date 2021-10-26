@@ -46,7 +46,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see LICENSE-REDISTRIBUTED.md
 License:        GPLv3 and GPLv3+ and ASL 2.0 and CC-BY and MIT and WTFPL 
@@ -349,6 +349,9 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Tue Oct 26 2021 Adrian Reber <adrian@lisas.de> - 1.31.0-5
+- Rebuilt for protobuf 3.18.1
+
 * Tue Sep 14 2021 Sahana Prasad <sahana@redhat.com> - 1.31.0-4
 - Rebuilt with OpenSSL 3.0.0
 
