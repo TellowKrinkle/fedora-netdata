@@ -28,7 +28,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.31.0
+%global upver        1.32.0
 #global rcver        rc0
 
 # libwebsockets in Fedora 33: 4.1.2
@@ -46,7 +46,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        6%{?dist}
+Release:        1%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see LICENSE-REDISTRIBUTED.md
 License:        GPLv3 and GPLv3+ and ASL 2.0 and CC-BY and MIT and WTFPL 
@@ -60,10 +60,10 @@ Source4:        netdata.profile
 Source10:       https://github.com/warmcat/libwebsockets/archive/v%{lws_version}/libwebsockets-%{lws_version}.tar.gz
 # used only if with bundledmosquitto is true, but must be present anyway to build complete srpm
 Source11:       https://github.com/netdata/mosquitto/archive/v.%{mosquitto_version}%{mosquitto_patch}/mosquitto-%{mosquitto_version}%{mosquitto_patch}.tar.gz
-Patch0:         netdata-fix-shebang-1.31.0.patch
+Patch0:         netdata-fix-shebang-1.32.0.patch
 %if 0%{?fedora}
 # Remove embedded font
-Patch10:        netdata-remove-fonts-1.31.0.patch
+Patch10:        netdata-remove-fonts-1.32.0.patch
 %endif
 
 BuildRequires:  zlib-devel
@@ -179,7 +179,7 @@ freeipmi plugin for netdata
 %if 0%{?fedora}
 # Remove embedded font(added in requires)
 %patch10 -p1
-rm -rf web/fonts
+rm -rf web/fonts web/gui/dashboard/static/media
 %endif
 
 ### BEGIN netdata cloud
@@ -265,6 +265,7 @@ done
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 install -p -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/profile.d/netdata.sh
+rm -f %{buildroot}%{_sysconfdir}/netdata/.install-type
 
 %check
 make tests
@@ -349,6 +350,9 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Thu Dec 02 2021 Didier Fabert <didier.fabert@gmail.com> 1.32.0-1
+- Update from upstream
+
 * Sat Nov 06 2021 Adrian Reber <adrian@lisas.de> - 1.31.0-6
 - Rebuilt for protobuf 3.19.0
 

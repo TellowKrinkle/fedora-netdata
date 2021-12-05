@@ -1,11 +1,10 @@
 diff -rup a/web/gui/dashboard/Makefile.am b/web/gui/dashboard/Makefile.am
---- a/web/gui/dashboard/Makefile.am	2021-05-19 13:36:47.000000000 +0200
-+++ b/web/gui/dashboard/Makefile.am	2021-05-19 20:05:17.473963841 +0200
-@@ -163,36 +163,3 @@ dist_webstaticjs_DATA = \
-     static/js/runtime-main.6c7b39cd.js \
-     static/js/runtime-main.6c7b39cd.js.map \
+--- a/web/gui/dashboard/Makefile.am	2021-11-30 14:11:58.000000000 +0100
++++ b/web/gui/dashboard/Makefile.am	2021-12-05 19:46:17.706207809 +0100
+@@ -164,35 +164,3 @@ dist_webstaticjs_DATA = \
+     static/js/runtime-main.ea592e2f.js.map \
      $(NULL)
--
+ 
 -webstaticmediadir=$(webdir)/static/media
 -dist_webstaticmedia_DATA = \
 -    static/media/ibm-plex-sans-latin-100.245539db.woff2 \
