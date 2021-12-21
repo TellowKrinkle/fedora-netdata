@@ -28,7 +28,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.32.0
+%global upver        1.32.1
 #global rcver        rc0
 
 # libwebsockets in Fedora 33: 4.1.2
@@ -56,11 +56,12 @@ Source1:        netdata.tmpfiles.conf
 Source2:        netdata.init
 Source3:        netdata.conf
 Source4:        netdata.profile
+Source5:        README-packager.md
 # used only if with bundledlws is true, but must be present anyway to build complete srpm
 Source10:       https://github.com/warmcat/libwebsockets/archive/v%{lws_version}/libwebsockets-%{lws_version}.tar.gz
 # used only if with bundledmosquitto is true, but must be present anyway to build complete srpm
 Source11:       https://github.com/netdata/mosquitto/archive/v.%{mosquitto_version}%{mosquitto_patch}/mosquitto-%{mosquitto_version}%{mosquitto_patch}.tar.gz
-Patch0:         netdata-fix-shebang-1.32.0.patch
+Patch0:         netdata-fix-shebang-1.32.1.patch
 %if 0%{?fedora}
 # Remove embedded font
 Patch10:        netdata-remove-fonts-1.32.0.patch
@@ -153,6 +154,9 @@ happened, on your systems and applications.
 %package data
 BuildArch:      noarch
 Summary:        Data files for netdata
+Requires:       /usr/sbin/useradd
+Requires:       /usr/sbin/groupadd
+Requires:       /usr/bin/systemctl
 
 %description data
 Data files for netdata
@@ -181,6 +185,7 @@ freeipmi plugin for netdata
 %patch10 -p1
 rm -rf web/fonts web/gui/dashboard/static/media
 %endif
+cp %{SOURCE5} .
 
 ### BEGIN netdata cloud
 %if %{with bundledlws}
@@ -288,7 +293,7 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %systemd_postun_with_restart %{name}.service
 
 %files
-%doc README.md CHANGELOG.md HISTORICAL_CHANGELOG.md BREAKING_CHANGES.md BUILD.md
+%doc README.md CHANGELOG.md HISTORICAL_CHANGELOG.md BREAKING_CHANGES.md BUILD.md README-packager.md
 %license LICENSE REDISTRIBUTED.md
 %{_sbindir}/%{name}
 %{_sbindir}/%{name}-claim.sh
@@ -350,6 +355,12 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Tue Dec 21 2021 Didier Fabert <didier.fabert@gmail.com> 1.32.1-1
+- Update from upstream
+
+* Thu Dec 16 2021 Laurent Conrath <saim-support@thalesgroup.com> 1.32.0-2
+- Add dependencies to useradd, groupadd and systemctl for data
+
 * Thu Dec 02 2021 Didier Fabert <didier.fabert@gmail.com> 1.32.0-1
 - Update from upstream
 

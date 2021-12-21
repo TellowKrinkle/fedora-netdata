@@ -2,8 +2,8 @@ Fix shebang according to
 https://docs.fedoraproject.org/en-US/packaging-guidelines/#_shebang_lines
 
 diff -rup a/aclk/legacy/tests/fake-charts.d.plugin b/aclk/legacy/tests/fake-charts.d.plugin
---- a/aclk/legacy/tests/fake-charts.d.plugin	2021-11-30 14:11:58.000000000 +0100
-+++ b/aclk/legacy/tests/fake-charts.d.plugin	2021-12-05 19:43:08.622317720 +0100
+--- a/aclk/legacy/tests/fake-charts.d.plugin	2021-12-14 13:42:23.000000000 +0100
++++ b/aclk/legacy/tests/fake-charts.d.plugin	2021-12-15 12:36:28.541353503 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -11,8 +11,8 @@ diff -rup a/aclk/legacy/tests/fake-charts.d.plugin b/aclk/legacy/tests/fake-char
  sleep 45    # Wait until popcorning finishes
  
 diff -rup a/aclk/legacy/tests/install-fake-charts.d.sh.in b/aclk/legacy/tests/install-fake-charts.d.sh.in
---- a/aclk/legacy/tests/install-fake-charts.d.sh.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/aclk/legacy/tests/install-fake-charts.d.sh.in	2021-12-05 19:43:08.624317796 +0100
+--- a/aclk/legacy/tests/install-fake-charts.d.sh.in	2021-12-14 13:42:23.000000000 +0100
++++ b/aclk/legacy/tests/install-fake-charts.d.sh.in	2021-12-15 12:36:28.543353491 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -20,8 +20,8 @@ diff -rup a/aclk/legacy/tests/install-fake-charts.d.sh.in b/aclk/legacy/tests/in
  TARGET="@pluginsdir_POST@"
  BASE="$(cd "$(dirname "$0")" && pwd)"
 diff -rup a/aclk/legacy/tests/launch-paho.sh b/aclk/legacy/tests/launch-paho.sh
---- a/aclk/legacy/tests/launch-paho.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/aclk/legacy/tests/launch-paho.sh	2021-12-05 19:43:08.625317834 +0100
+--- a/aclk/legacy/tests/launch-paho.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/aclk/legacy/tests/launch-paho.sh	2021-12-15 12:36:28.540353509 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -29,8 +29,8 @@ diff -rup a/aclk/legacy/tests/launch-paho.sh b/aclk/legacy/tests/launch-paho.sh
  docker build -f paho.Dockerfile . --build-arg "HOST_HOSTNAME=$(ping -c1 "$(hostname).local" | head -n1 | grep -o '[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*')" -t paho-client
  docker run -it paho-client
 diff -rup a/backends/nc-backend.sh b/backends/nc-backend.sh
---- a/backends/nc-backend.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/backends/nc-backend.sh	2021-12-05 19:43:08.627317910 +0100
+--- a/backends/nc-backend.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/backends/nc-backend.sh	2021-12-15 12:36:28.545353479 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -38,8 +38,8 @@ diff -rup a/backends/nc-backend.sh b/backends/nc-backend.sh
  # SPDX-License-Identifier: GPL-3.0-or-later
  
 diff -rup a/build_external/bin/clean-install.sh b/build_external/bin/clean-install.sh
---- a/build_external/bin/clean-install.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/build_external/bin/clean-install.sh	2021-12-05 19:43:08.630318024 +0100
+--- a/build_external/bin/clean-install.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/build_external/bin/clean-install.sh	2021-12-15 12:36:28.546353473 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -47,8 +47,8 @@ diff -rup a/build_external/bin/clean-install.sh b/build_external/bin/clean-insta
  DISTRO="$1"
  VERSION="$2"
 diff -rup a/build_external/bin/make-install.sh b/build_external/bin/make-install.sh
---- a/build_external/bin/make-install.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/build_external/bin/make-install.sh	2021-12-05 19:43:08.628317948 +0100
+--- a/build_external/bin/make-install.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/build_external/bin/make-install.sh	2021-12-15 12:36:28.547353467 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -56,8 +56,8 @@ diff -rup a/build_external/bin/make-install.sh b/build_external/bin/make-install
  DISTRO="$1"
  VERSION="$2"
 diff -rup a/claim/netdata-claim.sh.in b/claim/netdata-claim.sh.in
---- a/claim/netdata-claim.sh.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/claim/netdata-claim.sh.in	2021-12-05 19:43:08.631318062 +0100
+--- a/claim/netdata-claim.sh.in	2021-12-14 13:42:23.000000000 +0100
++++ b/claim/netdata-claim.sh.in	2021-12-15 12:36:28.549353455 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -65,8 +65,8 @@ diff -rup a/claim/netdata-claim.sh.in b/claim/netdata-claim.sh.in
  # real-time performance and health monitoring, done right!
  # (C) 2017 Costa Tsaousis <costa@tsaousis.gr>
 diff -rup a/collectors/cgroups.plugin/cgroup-name.sh.in b/collectors/cgroups.plugin/cgroup-name.sh.in
---- a/collectors/cgroups.plugin/cgroup-name.sh.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/collectors/cgroups.plugin/cgroup-name.sh.in	2021-12-05 19:43:08.640318404 +0100
+--- a/collectors/cgroups.plugin/cgroup-name.sh.in	2021-12-14 13:42:23.000000000 +0100
++++ b/collectors/cgroups.plugin/cgroup-name.sh.in	2021-12-15 12:36:28.555353419 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -74,8 +74,8 @@ diff -rup a/collectors/cgroups.plugin/cgroup-name.sh.in b/collectors/cgroups.plu
  
  # netdata
 diff -rup a/collectors/cgroups.plugin/cgroup-network-helper.sh b/collectors/cgroups.plugin/cgroup-network-helper.sh
---- a/collectors/cgroups.plugin/cgroup-network-helper.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/collectors/cgroups.plugin/cgroup-network-helper.sh	2021-12-05 19:43:08.638318328 +0100
+--- a/collectors/cgroups.plugin/cgroup-network-helper.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/collectors/cgroups.plugin/cgroup-network-helper.sh	2021-12-15 12:36:28.553353431 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -83,8 +83,8 @@ diff -rup a/collectors/cgroups.plugin/cgroup-network-helper.sh b/collectors/cgro
  
  # cgroup-network-helper.sh
 diff -rup a/collectors/charts.d.plugin/charts.d.dryrun-helper.sh b/collectors/charts.d.plugin/charts.d.dryrun-helper.sh
---- a/collectors/charts.d.plugin/charts.d.dryrun-helper.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/collectors/charts.d.plugin/charts.d.dryrun-helper.sh	2021-12-05 19:43:08.635318214 +0100
+--- a/collectors/charts.d.plugin/charts.d.dryrun-helper.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/collectors/charts.d.plugin/charts.d.dryrun-helper.sh	2021-12-15 12:36:28.558353401 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -92,8 +92,8 @@ diff -rup a/collectors/charts.d.plugin/charts.d.dryrun-helper.sh b/collectors/ch
  
  # shellcheck disable=SC2181
 diff -rup a/collectors/charts.d.plugin/charts.d.plugin.in b/collectors/charts.d.plugin/charts.d.plugin.in
---- a/collectors/charts.d.plugin/charts.d.plugin.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/collectors/charts.d.plugin/charts.d.plugin.in	2021-12-05 19:43:08.637318290 +0100
+--- a/collectors/charts.d.plugin/charts.d.plugin.in	2021-12-14 13:42:23.000000000 +0100
++++ b/collectors/charts.d.plugin/charts.d.plugin.in	2021-12-15 12:36:28.559353395 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -101,8 +101,8 @@ diff -rup a/collectors/charts.d.plugin/charts.d.plugin.in b/collectors/charts.d.
  
  # netdata
 diff -rup a/collectors/fping.plugin/fping.plugin.in b/collectors/fping.plugin/fping.plugin.in
---- a/collectors/fping.plugin/fping.plugin.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/collectors/fping.plugin/fping.plugin.in	2021-12-05 19:43:08.645318593 +0100
+--- a/collectors/fping.plugin/fping.plugin.in	2021-12-14 13:42:23.000000000 +0100
++++ b/collectors/fping.plugin/fping.plugin.in	2021-12-15 12:36:28.556353413 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -110,8 +110,8 @@ diff -rup a/collectors/fping.plugin/fping.plugin.in b/collectors/fping.plugin/fp
  
  # netdata
 diff -rup a/collectors/ioping.plugin/ioping.plugin.in b/collectors/ioping.plugin/ioping.plugin.in
---- a/collectors/ioping.plugin/ioping.plugin.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/collectors/ioping.plugin/ioping.plugin.in	2021-12-05 19:43:08.647318669 +0100
+--- a/collectors/ioping.plugin/ioping.plugin.in	2021-12-14 13:42:23.000000000 +0100
++++ b/collectors/ioping.plugin/ioping.plugin.in	2021-12-15 12:36:28.560353389 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -119,8 +119,8 @@ diff -rup a/collectors/ioping.plugin/ioping.plugin.in b/collectors/ioping.plugin
  
  # netdata
 diff -rup a/collectors/node.d.plugin/node.d.plugin.in b/collectors/node.d.plugin/node.d.plugin.in
---- a/collectors/node.d.plugin/node.d.plugin.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/collectors/node.d.plugin/node.d.plugin.in	2021-12-05 19:43:08.641318442 +0100
+--- a/collectors/node.d.plugin/node.d.plugin.in	2021-12-14 13:42:23.000000000 +0100
++++ b/collectors/node.d.plugin/node.d.plugin.in	2021-12-15 12:36:28.550353449 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -128,8 +128,8 @@ diff -rup a/collectors/node.d.plugin/node.d.plugin.in b/collectors/node.d.plugin
  
  // shebang hack from:
 diff -rup a/collectors/python.d.plugin/python.d.plugin.in b/collectors/python.d.plugin/python.d.plugin.in
---- a/collectors/python.d.plugin/python.d.plugin.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/collectors/python.d.plugin/python.d.plugin.in	2021-12-05 19:43:08.643318517 +0100
+--- a/collectors/python.d.plugin/python.d.plugin.in	2021-12-14 13:42:23.000000000 +0100
++++ b/collectors/python.d.plugin/python.d.plugin.in	2021-12-15 12:36:28.552353437 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -137,8 +137,8 @@ diff -rup a/collectors/python.d.plugin/python.d.plugin.in b/collectors/python.d.
  pybinary=$(which python || which python3 || which python2)
  filtered=()
 diff -rup a/collectors/python.d.plugin/python_modules/third_party/boinc_client.py b/collectors/python.d.plugin/python_modules/third_party/boinc_client.py
---- a/collectors/python.d.plugin/python_modules/third_party/boinc_client.py	2021-11-30 14:11:58.000000000 +0100
-+++ b/collectors/python.d.plugin/python_modules/third_party/boinc_client.py	2021-12-05 19:43:08.765323149 +0100
+--- a/collectors/python.d.plugin/python_modules/third_party/boinc_client.py	2021-12-14 13:42:23.000000000 +0100
++++ b/collectors/python.d.plugin/python_modules/third_party/boinc_client.py	2021-12-15 12:36:28.673352712 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env python
 +#
@@ -146,8 +146,8 @@ diff -rup a/collectors/python.d.plugin/python_modules/third_party/boinc_client.p
  #
  # client.py - Somewhat higher-level GUI_RPC API for BOINC core client
 diff -rup a/collectors/tc.plugin/tc-qos-helper.sh.in b/collectors/tc.plugin/tc-qos-helper.sh.in
---- a/collectors/tc.plugin/tc-qos-helper.sh.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/collectors/tc.plugin/tc-qos-helper.sh.in	2021-12-05 19:43:08.633318138 +0100
+--- a/collectors/tc.plugin/tc-qos-helper.sh.in	2021-12-14 13:42:23.000000000 +0100
++++ b/collectors/tc.plugin/tc-qos-helper.sh.in	2021-12-15 12:36:28.562353377 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -155,8 +155,8 @@ diff -rup a/collectors/tc.plugin/tc-qos-helper.sh.in b/collectors/tc.plugin/tc-q
  # netdata
  # real-time performance and health monitoring, done right!
 diff -rup a/contrib/debian/install_go.sh b/contrib/debian/install_go.sh
---- a/contrib/debian/install_go.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/contrib/debian/install_go.sh	2021-12-05 19:43:08.650318783 +0100
+--- a/contrib/debian/install_go.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/contrib/debian/install_go.sh	2021-12-15 12:36:28.563353371 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -164,8 +164,8 @@ diff -rup a/contrib/debian/install_go.sh b/contrib/debian/install_go.sh
  GO_PACKAGE_VERSION="$1"
  LIB_DIR="$2"
 diff -rup a/contrib/rhel/build-netdata-rpm.sh b/contrib/rhel/build-netdata-rpm.sh
---- a/contrib/rhel/build-netdata-rpm.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/contrib/rhel/build-netdata-rpm.sh	2021-12-05 19:43:08.648318707 +0100
+--- a/contrib/rhel/build-netdata-rpm.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/contrib/rhel/build-netdata-rpm.sh	2021-12-15 12:36:28.566353353 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -173,8 +173,8 @@ diff -rup a/contrib/rhel/build-netdata-rpm.sh b/contrib/rhel/build-netdata-rpm.s
  # docker run -it --rm centos:6.9 /bin/sh
  # yum -y install rpm-build redhat-rpm-config yum-utils autoconf automake curl gcc git libmnl-devel libuuid-devel make pkgconfig zlib-devel
 diff -rup a/contrib/sles11/alarm-notify-basic.bash3.sh b/contrib/sles11/alarm-notify-basic.bash3.sh
---- a/contrib/sles11/alarm-notify-basic.bash3.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/contrib/sles11/alarm-notify-basic.bash3.sh	2021-12-05 19:43:08.652318859 +0100
+--- a/contrib/sles11/alarm-notify-basic.bash3.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/contrib/sles11/alarm-notify-basic.bash3.sh	2021-12-15 12:36:28.565353359 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -182,8 +182,8 @@ diff -rup a/contrib/sles11/alarm-notify-basic.bash3.sh b/contrib/sles11/alarm-no
  # basic version of netdata notifier to work with bash3
  # only mail and syslog destinations are supported, one recipient each
 diff -rup a/coverity-scan.sh b/coverity-scan.sh
---- a/coverity-scan.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/coverity-scan.sh	2021-12-05 19:43:08.653318897 +0100
+--- a/coverity-scan.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/coverity-scan.sh	2021-12-15 12:36:28.568353341 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -191,8 +191,8 @@ diff -rup a/coverity-scan.sh b/coverity-scan.sh
  # Coverity scan script
  #
 diff -rup a/cppcheck.sh b/cppcheck.sh
---- a/cppcheck.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/cppcheck.sh	2021-12-05 19:43:08.655318973 +0100
+--- a/cppcheck.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/cppcheck.sh	2021-12-15 12:36:28.569353335 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -200,8 +200,8 @@ diff -rup a/cppcheck.sh b/cppcheck.sh
  # echo >>/tmp/cppcheck.log "cppcheck ${*}"
  
 diff -rup a/daemon/anonymous-statistics.sh.in b/daemon/anonymous-statistics.sh.in
---- a/daemon/anonymous-statistics.sh.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/daemon/anonymous-statistics.sh.in	2021-12-05 19:43:08.705320871 +0100
+--- a/daemon/anonymous-statistics.sh.in	2021-12-14 13:42:23.000000000 +0100
++++ b/daemon/anonymous-statistics.sh.in	2021-12-15 12:36:28.613353072 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
@@ -209,8 +209,8 @@ diff -rup a/daemon/anonymous-statistics.sh.in b/daemon/anonymous-statistics.sh.i
  # Valid actions:
  
 diff -rup a/daemon/get-kubernetes-labels.sh.in b/daemon/get-kubernetes-labels.sh.in
---- a/daemon/get-kubernetes-labels.sh.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/daemon/get-kubernetes-labels.sh.in	2021-12-05 19:43:08.657319049 +0100
+--- a/daemon/get-kubernetes-labels.sh.in	2021-12-14 13:42:23.000000000 +0100
++++ b/daemon/get-kubernetes-labels.sh.in	2021-12-15 12:36:28.571353324 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -218,8 +218,8 @@ diff -rup a/daemon/get-kubernetes-labels.sh.in b/daemon/get-kubernetes-labels.sh
  # Checks if netdata is running in a kubernetes pod and fetches that pod's labels
  
 diff -rup a/daemon/system-info.sh b/daemon/system-info.sh
---- a/daemon/system-info.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/daemon/system-info.sh	2021-12-05 19:43:08.704320833 +0100
+--- a/daemon/system-info.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/daemon/system-info.sh	2021-12-15 12:36:28.611353084 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
@@ -227,8 +227,8 @@ diff -rup a/daemon/system-info.sh b/daemon/system-info.sh
  # -------------------------------------------------------------------------------------------------
  # detect the kernel
 diff -rup a/diagrams/build.sh b/diagrams/build.sh
---- a/diagrams/build.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/diagrams/build.sh	2021-12-05 19:43:08.658319087 +0100
+--- a/diagrams/build.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/diagrams/build.sh	2021-12-15 12:36:28.572353317 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -236,8 +236,8 @@ diff -rup a/diagrams/build.sh b/diagrams/build.sh
  
  path=$(dirname "$0")
 diff -rup a/exporting/nc-exporting.sh b/exporting/nc-exporting.sh
---- a/exporting/nc-exporting.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/exporting/nc-exporting.sh	2021-12-05 19:43:08.660319163 +0100
+--- a/exporting/nc-exporting.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/exporting/nc-exporting.sh	2021-12-15 12:36:28.573353312 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -245,8 +245,8 @@ diff -rup a/exporting/nc-exporting.sh b/exporting/nc-exporting.sh
  # SPDX-License-Identifier: GPL-3.0-or-later
  
 diff -rup a/health/notifications/alarm-email.sh b/health/notifications/alarm-email.sh
---- a/health/notifications/alarm-email.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/health/notifications/alarm-email.sh	2021-12-05 19:43:08.661319201 +0100
+--- a/health/notifications/alarm-email.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/health/notifications/alarm-email.sh	2021-12-15 12:36:28.578353281 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -254,8 +254,8 @@ diff -rup a/health/notifications/alarm-email.sh b/health/notifications/alarm-ema
  
  # OBSOLETE - REPLACED WITH
 diff -rup a/health/notifications/alarm-notify.sh.in b/health/notifications/alarm-notify.sh.in
---- a/health/notifications/alarm-notify.sh.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/health/notifications/alarm-notify.sh.in	2021-12-05 19:43:08.663319277 +0100
+--- a/health/notifications/alarm-notify.sh.in	2021-12-14 13:42:23.000000000 +0100
++++ b/health/notifications/alarm-notify.sh.in	2021-12-15 12:36:28.576353293 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -263,8 +263,8 @@ diff -rup a/health/notifications/alarm-notify.sh.in b/health/notifications/alarm
  
  # netdata
 diff -rup a/health/notifications/alarm-test.sh b/health/notifications/alarm-test.sh
---- a/health/notifications/alarm-test.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/health/notifications/alarm-test.sh	2021-12-05 19:43:08.665319353 +0100
+--- a/health/notifications/alarm-test.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/health/notifications/alarm-test.sh	2021-12-15 12:36:28.575353300 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -272,8 +272,8 @@ diff -rup a/health/notifications/alarm-test.sh b/health/notifications/alarm-test
  # netdata
  # real-time performance and health monitoring, done right!
 diff -rup a/netdata-installer.sh b/netdata-installer.sh
---- a/netdata-installer.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/netdata-installer.sh	2021-12-05 19:43:08.667319429 +0100
+--- a/netdata-installer.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/netdata-installer.sh	2021-12-15 12:36:28.579353276 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -281,8 +281,8 @@ diff -rup a/netdata-installer.sh b/netdata-installer.sh
  # SPDX-License-Identifier: GPL-3.0-or-later
  # shellcheck disable=SC2046,SC2086,SC2166
 diff -rup a/packaging/check-kernel-config.sh b/packaging/check-kernel-config.sh
---- a/packaging/check-kernel-config.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/check-kernel-config.sh	2021-12-05 19:43:08.677319808 +0100
+--- a/packaging/check-kernel-config.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/check-kernel-config.sh	2021-12-15 12:36:28.599353156 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -290,8 +290,8 @@ diff -rup a/packaging/check-kernel-config.sh b/packaging/check-kernel-config.sh
  get_kernel_version() {
    r="$(uname -r | cut -f 1 -d '-')"
 diff -rup a/packaging/docker/run.sh b/packaging/docker/run.sh
---- a/packaging/docker/run.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/docker/run.sh	2021-12-05 19:43:08.675319732 +0100
+--- a/packaging/docker/run.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/docker/run.sh	2021-12-15 12:36:28.606353114 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -299,8 +299,8 @@ diff -rup a/packaging/docker/run.sh b/packaging/docker/run.sh
  # Entry point script for netdata
  #
 diff -rup a/packaging/installer/install-required-packages.sh b/packaging/installer/install-required-packages.sh
---- a/packaging/installer/install-required-packages.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/installer/install-required-packages.sh	2021-12-05 19:43:08.669319505 +0100
+--- a/packaging/installer/install-required-packages.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/installer/install-required-packages.sh	2021-12-15 12:36:28.604353126 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -308,8 +308,8 @@ diff -rup a/packaging/installer/install-required-packages.sh b/packaging/install
  # We use lots of computed variable names in here, so we need to disable shellcheck 2034
  
 diff -rup a/packaging/installer/kickstart.sh b/packaging/installer/kickstart.sh
---- a/packaging/installer/kickstart.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/installer/kickstart.sh	2021-12-05 19:43:08.673319657 +0100
+--- a/packaging/installer/kickstart.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/installer/kickstart.sh	2021-12-15 12:36:28.601353144 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -317,8 +317,8 @@ diff -rup a/packaging/installer/kickstart.sh b/packaging/installer/kickstart.sh
  #
  # Run me with:
 diff -rup a/packaging/installer/kickstart-static64.sh b/packaging/installer/kickstart-static64.sh
---- a/packaging/installer/kickstart-static64.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/installer/kickstart-static64.sh	2021-12-05 19:43:08.707320947 +0100
+--- a/packaging/installer/kickstart-static64.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/installer/kickstart-static64.sh	2021-12-15 12:36:28.617353048 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
@@ -326,26 +326,17 @@ diff -rup a/packaging/installer/kickstart-static64.sh b/packaging/installer/kick
  # SPDX-License-Identifier: GPL-3.0-or-later
  # shellcheck disable=SC1117,SC2039,SC2059,SC2086
 diff -rup a/packaging/installer/netdata-uninstaller.sh b/packaging/installer/netdata-uninstaller.sh
---- a/packaging/installer/netdata-uninstaller.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/installer/netdata-uninstaller.sh	2021-12-05 19:43:08.670319543 +0100
+--- a/packaging/installer/netdata-uninstaller.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/installer/netdata-uninstaller.sh	2021-12-15 12:36:28.603353132 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
  #
  # This is the netdata uninstaller script
  #
-diff -rup a/packaging/installer/netdata-updater.sh b/packaging/installer/netdata-updater.sh
---- a/packaging/installer/netdata-updater.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/installer/netdata-updater.sh	2021-12-05 19:43:08.672319618 +0100
-@@ -1,4 +1,4 @@
--#!/usr/bin/env bash
-+#!/usr/bin/bash
- 
- # Netdata updater utility
- #
 diff -rup a/packaging/makeself/build.sh b/packaging/makeself/build.sh
---- a/packaging/makeself/build.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/build.sh	2021-12-05 19:43:08.710321061 +0100
+--- a/packaging/makeself/build.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/build.sh	2021-12-15 12:36:28.615353060 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
@@ -353,8 +344,8 @@ diff -rup a/packaging/makeself/build.sh b/packaging/makeself/build.sh
  
  # -----------------------------------------------------------------------------
 diff -rup a/packaging/makeself/build-static.sh b/packaging/makeself/build-static.sh
---- a/packaging/makeself/build-static.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/build-static.sh	2021-12-05 19:43:08.695320491 +0100
+--- a/packaging/makeself/build-static.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/build-static.sh	2021-12-15 12:36:28.587353228 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -362,8 +353,8 @@ diff -rup a/packaging/makeself/build-static.sh b/packaging/makeself/build-static
  # SPDX-License-Identifier: GPL-3.0-or-later
  
 diff -rup a/packaging/makeself/build-x86_64-static.sh b/packaging/makeself/build-x86_64-static.sh
---- a/packaging/makeself/build-x86_64-static.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/build-x86_64-static.sh	2021-12-05 19:43:08.697320567 +0100
+--- a/packaging/makeself/build-x86_64-static.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/build-x86_64-static.sh	2021-12-15 12:36:28.581353264 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -371,8 +362,8 @@ diff -rup a/packaging/makeself/build-x86_64-static.sh b/packaging/makeself/build
  # SPDX-License-Identifier: GPL-3.0-or-later
  
 diff -rup a/packaging/makeself/functions.sh b/packaging/makeself/functions.sh
---- a/packaging/makeself/functions.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/functions.sh	2021-12-05 19:43:08.694320453 +0100
+--- a/packaging/makeself/functions.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/functions.sh	2021-12-15 12:36:28.582353257 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -380,8 +371,8 @@ diff -rup a/packaging/makeself/functions.sh b/packaging/makeself/functions.sh
  
  # -----------------------------------------------------------------------------
 diff -rup a/packaging/makeself/install-alpine-packages.sh b/packaging/makeself/install-alpine-packages.sh
---- a/packaging/makeself/install-alpine-packages.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/install-alpine-packages.sh	2021-12-05 19:43:08.708320985 +0100
+--- a/packaging/makeself/install-alpine-packages.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/install-alpine-packages.sh	2021-12-15 12:36:28.614353066 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
@@ -389,8 +380,8 @@ diff -rup a/packaging/makeself/install-alpine-packages.sh b/packaging/makeself/i
  # Installation script for the alpine host
  # to prepare the static binary
 diff -rup a/packaging/makeself/install-or-update.sh b/packaging/makeself/install-or-update.sh
---- a/packaging/makeself/install-or-update.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/install-or-update.sh	2021-12-05 19:43:08.691320340 +0100
+--- a/packaging/makeself/install-or-update.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/install-or-update.sh	2021-12-15 12:36:28.585353240 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -398,8 +389,8 @@ diff -rup a/packaging/makeself/install-or-update.sh b/packaging/makeself/install
  # SPDX-License-Identifier: GPL-3.0-or-later
  
 diff -rup a/packaging/makeself/jobs/10-prepare-destination.install.sh b/packaging/makeself/jobs/10-prepare-destination.install.sh
---- a/packaging/makeself/jobs/10-prepare-destination.install.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/jobs/10-prepare-destination.install.sh	2021-12-05 19:43:08.689320264 +0100
+--- a/packaging/makeself/jobs/10-prepare-destination.install.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/jobs/10-prepare-destination.install.sh	2021-12-15 12:36:28.598353162 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -407,8 +398,8 @@ diff -rup a/packaging/makeself/jobs/10-prepare-destination.install.sh b/packagin
  
  # shellcheck source=packaging/makeself/functions.sh
 diff -rup a/packaging/makeself/jobs/20-openssl.install.sh b/packaging/makeself/jobs/20-openssl.install.sh
---- a/packaging/makeself/jobs/20-openssl.install.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/jobs/20-openssl.install.sh	2021-12-05 19:43:08.681319960 +0100
+--- a/packaging/makeself/jobs/20-openssl.install.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/jobs/20-openssl.install.sh	2021-12-15 12:36:28.593353192 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -416,8 +407,8 @@ diff -rup a/packaging/makeself/jobs/20-openssl.install.sh b/packaging/makeself/j
  
  # shellcheck source=packaging/makeself/functions.sh
 diff -rup a/packaging/makeself/jobs/50-bash-5.1.8.install.sh b/packaging/makeself/jobs/50-bash-5.1.8.install.sh
---- a/packaging/makeself/jobs/50-bash-5.1.8.install.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/jobs/50-bash-5.1.8.install.sh	2021-12-05 19:43:08.683320036 +0100
+--- a/packaging/makeself/jobs/50-bash-5.1.8.install.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/jobs/50-bash-5.1.8.install.sh	2021-12-15 12:36:28.591353204 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -425,8 +416,8 @@ diff -rup a/packaging/makeself/jobs/50-bash-5.1.8.install.sh b/packaging/makesel
  
  # shellcheck source=packaging/makeself/functions.sh
 diff -rup a/packaging/makeself/jobs/50-curl-7.78.0.install.sh b/packaging/makeself/jobs/50-curl-7.78.0.install.sh
---- a/packaging/makeself/jobs/50-curl-7.78.0.install.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/jobs/50-curl-7.78.0.install.sh	2021-12-05 19:43:08.680319922 +0100
+--- a/packaging/makeself/jobs/50-curl-7.78.0.install.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/jobs/50-curl-7.78.0.install.sh	2021-12-15 12:36:28.588353221 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -434,8 +425,8 @@ diff -rup a/packaging/makeself/jobs/50-curl-7.78.0.install.sh b/packaging/makese
  
  # shellcheck source=packaging/makeself/functions.sh
 diff -rup a/packaging/makeself/jobs/50-fping-5.0.install.sh b/packaging/makeself/jobs/50-fping-5.0.install.sh
---- a/packaging/makeself/jobs/50-fping-5.0.install.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/jobs/50-fping-5.0.install.sh	2021-12-05 19:43:08.685320112 +0100
+--- a/packaging/makeself/jobs/50-fping-5.0.install.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/jobs/50-fping-5.0.install.sh	2021-12-15 12:36:28.590353210 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -443,8 +434,8 @@ diff -rup a/packaging/makeself/jobs/50-fping-5.0.install.sh b/packaging/makeself
  
  # shellcheck source=packaging/makeself/functions.sh
 diff -rup a/packaging/makeself/jobs/50-ioping-1.2.install.sh b/packaging/makeself/jobs/50-ioping-1.2.install.sh
---- a/packaging/makeself/jobs/50-ioping-1.2.install.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/jobs/50-ioping-1.2.install.sh	2021-12-05 19:43:08.686320150 +0100
+--- a/packaging/makeself/jobs/50-ioping-1.2.install.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/jobs/50-ioping-1.2.install.sh	2021-12-15 12:36:28.597353168 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -452,8 +443,8 @@ diff -rup a/packaging/makeself/jobs/50-ioping-1.2.install.sh b/packaging/makesel
  
  # shellcheck source=packaging/makeself/functions.sh
 diff -rup a/packaging/makeself/jobs/70-netdata-git.install.sh b/packaging/makeself/jobs/70-netdata-git.install.sh
---- a/packaging/makeself/jobs/70-netdata-git.install.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/jobs/70-netdata-git.install.sh	2021-12-05 19:43:08.688320226 +0100
+--- a/packaging/makeself/jobs/70-netdata-git.install.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/jobs/70-netdata-git.install.sh	2021-12-15 12:36:28.595353180 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -461,8 +452,8 @@ diff -rup a/packaging/makeself/jobs/70-netdata-git.install.sh b/packaging/makese
  
  # shellcheck source=./packaging/makeself/functions.sh
 diff -rup a/packaging/makeself/jobs/99-makeself.install.sh b/packaging/makeself/jobs/99-makeself.install.sh
---- a/packaging/makeself/jobs/99-makeself.install.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/jobs/99-makeself.install.sh	2021-12-05 19:43:08.678319846 +0100
+--- a/packaging/makeself/jobs/99-makeself.install.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/jobs/99-makeself.install.sh	2021-12-15 12:36:28.594353186 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -470,8 +461,8 @@ diff -rup a/packaging/makeself/jobs/99-makeself.install.sh b/packaging/makeself/
  
  # shellcheck source=packaging/makeself/functions.sh
 diff -rup a/packaging/makeself/run-all-jobs.sh b/packaging/makeself/run-all-jobs.sh
---- a/packaging/makeself/run-all-jobs.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/packaging/makeself/run-all-jobs.sh	2021-12-05 19:43:08.692320378 +0100
+--- a/packaging/makeself/run-all-jobs.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/packaging/makeself/run-all-jobs.sh	2021-12-15 12:36:28.584353245 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -479,8 +470,8 @@ diff -rup a/packaging/makeself/run-all-jobs.sh b/packaging/makeself/run-all-jobs
  
  set -e
 diff -rup a/system/edit-config.in b/system/edit-config.in
---- a/system/edit-config.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/system/edit-config.in	2021-12-05 19:43:08.711321099 +0100
+--- a/system/edit-config.in	2021-12-14 13:42:23.000000000 +0100
++++ b/system/edit-config.in	2021-12-15 12:36:28.618353042 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
@@ -488,8 +479,8 @@ diff -rup a/system/edit-config.in b/system/edit-config.in
  [ -f /etc/profile ] && . /etc/profile
  
 diff -rup a/system/netdata-lsb.in b/system/netdata-lsb.in
---- a/system/netdata-lsb.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/system/netdata-lsb.in	2021-12-05 19:43:08.699320643 +0100
+--- a/system/netdata-lsb.in	2021-12-14 13:42:23.000000000 +0100
++++ b/system/netdata-lsb.in	2021-12-15 12:36:28.607353108 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -497,8 +488,8 @@ diff -rup a/system/netdata-lsb.in b/system/netdata-lsb.in
  # Netdata LSB start script
  #
 diff -rup a/tests/health_mgmtapi/health-cmdapi-test.sh.in b/tests/health_mgmtapi/health-cmdapi-test.sh.in
---- a/tests/health_mgmtapi/health-cmdapi-test.sh.in	2021-11-30 14:11:58.000000000 +0100
-+++ b/tests/health_mgmtapi/health-cmdapi-test.sh.in	2021-12-05 19:43:08.700320681 +0100
+--- a/tests/health_mgmtapi/health-cmdapi-test.sh.in	2021-12-14 13:42:23.000000000 +0100
++++ b/tests/health_mgmtapi/health-cmdapi-test.sh.in	2021-12-15 12:36:28.610353090 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -506,8 +497,8 @@ diff -rup a/tests/health_mgmtapi/health-cmdapi-test.sh.in b/tests/health_mgmtapi
  
  NETDATA_VARLIB_DIR="@varlibdir_POST@"
 diff -rup a/tests/run-unit-tests.sh b/tests/run-unit-tests.sh
---- a/tests/run-unit-tests.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/tests/run-unit-tests.sh	2021-12-05 19:43:08.702320757 +0100
+--- a/tests/run-unit-tests.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/tests/run-unit-tests.sh	2021-12-15 12:36:28.608353102 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -515,8 +506,8 @@ diff -rup a/tests/run-unit-tests.sh b/tests/run-unit-tests.sh
  # Unit-testing script
  #
 diff -rup a/tests/updater_checks.sh b/tests/updater_checks.sh
---- a/tests/updater_checks.sh	2021-11-30 14:11:58.000000000 +0100
-+++ b/tests/updater_checks.sh	2021-12-05 19:43:08.713321175 +0100
+--- a/tests/updater_checks.sh	2021-12-14 13:42:23.000000000 +0100
++++ b/tests/updater_checks.sh	2021-12-15 12:36:28.620353030 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
@@ -524,8 +515,8 @@ diff -rup a/tests/updater_checks.sh b/tests/updater_checks.sh
  # Wrapper script that installs the required dependencies
  # for the BATS script to run successfully
 diff -rup a/web/gui/bundle_dashboard.py b/web/gui/bundle_dashboard.py
---- a/web/gui/bundle_dashboard.py	2021-11-30 14:11:58.000000000 +0100
-+++ b/web/gui/bundle_dashboard.py	2021-12-05 19:43:08.767323225 +0100
+--- a/web/gui/bundle_dashboard.py	2021-12-14 13:42:23.000000000 +0100
++++ b/web/gui/bundle_dashboard.py	2021-12-15 12:36:28.675352700 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env python3
 +#!/usr/bin/python33
