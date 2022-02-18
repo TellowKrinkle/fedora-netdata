@@ -103,10 +103,6 @@ BuildRequires:  python2
 %endif
 
 BuildRequires:  systemd
-%if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:  libbpf-devel
-BuildRequires:  libbpf-static
-%endif
 
 Requires:       nodejs
 Requires:       curl
