@@ -103,6 +103,9 @@ BuildRequires:  python2
 %endif
 
 BuildRequires:  systemd
+%if 0%{?rhel} && 0%{?rhel} == 8
+BuildRequires:  mariadb-devel
+%endif
 
 Requires:       nodejs
 Requires:       curl
