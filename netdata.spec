@@ -28,43 +28,26 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.32.1
+%global upver        1.33.1
 #global rcver        rc0
-
-# libwebsockets in Fedora 33: 4.1.2
-%global lws_version 3.2.2
-# mosquitto in Fedora 33: 1.6.12
-%global mosquitto_version 1.6.8
-%global mosquitto_patch _Netdata-5
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%bcond_without bundledlws
-%else
-%bcond_with bundledlws
-%endif
-%bcond_without bundledmosquitto
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see LICENSE-REDISTRIBUTED.md
 License:        GPLv3 and GPLv3+ and ASL 2.0 and CC-BY and MIT and WTFPL 
 URL:            http://my-netdata.io
-Source0:        https://github.com/%{name}/%{name}/archive/v%{upver}%{?rcver:-%{rcver}}/%{name}-%{upver}%{?rcver:-%{rcver}}.tar.gz
+Source0:        https://github.com/netdata/netdata/releases/download/v%{upver}%{?rcver:-%{rcver}}/%{name}-v%{upver}%{?rcver:-%{rcver}}.tar.gz
 Source1:        netdata.tmpfiles.conf
 Source2:        netdata.init
 Source3:        netdata.conf
 Source4:        netdata.profile
 Source5:        README-packager.md
-# used only if with bundledlws is true, but must be present anyway to build complete srpm
-Source10:       https://github.com/warmcat/libwebsockets/archive/v%{lws_version}/libwebsockets-%{lws_version}.tar.gz
-# used only if with bundledmosquitto is true, but must be present anyway to build complete srpm
-Source11:       https://github.com/netdata/mosquitto/archive/v.%{mosquitto_version}%{mosquitto_patch}/mosquitto-%{mosquitto_version}%{mosquitto_patch}.tar.gz
-Patch0:         netdata-fix-shebang-1.32.1.patch
+Patch0:         netdata-fix-shebang-1.33.1.patch
 %if 0%{?fedora}
 # Remove embedded font
-Patch10:        netdata-remove-fonts-1.32.0.patch
+Patch10:        netdata-remove-fonts-1.33.1.patch
 %endif
 
 BuildRequires:  zlib-devel
@@ -75,7 +58,6 @@ BuildRequires:  pkgconfig
 BuildRequires:  libuuid-devel
 BuildRequires:  freeipmi-devel
 BuildRequires:  httpd
-BuildRequires:  cppcheck
 BuildRequires:  gcc
 BuildRequires:  libuv-devel
 BuildRequires:  Judy-devel
@@ -94,20 +76,11 @@ BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  json-c-devel
 BuildRequires:  libcap-devel
-%if %{with bundledlws}
-# For tests
 BuildRequires:  openssl
-Provides: bundled(libwebsockets) = %{lws_version}
-%else
-BuildRequires:  libwebsockets-devel
-%endif
-%if %{with bundledmosquitto}
-Provides: bundled(mosquitto) = %{mosquitto_version}
-%else
-BuildRequires:  mosquitto-devel
-%endif
-# BuildRequires:  libpfm-devel
 
+# BuildRequires:  libpfm-devel
+# For tests
+BuildRequires:  libcmocka-devel
 
 %if %{with cups}
 BuildRequires:  cups-devel >= 1.7
@@ -115,18 +88,25 @@ BuildRequires:  cups-devel >= 1.7
 %if %{with netfilteracct}
 BuildRequires:  libnetfilter_acct-devel
 %endif
-# Only Fedora
-%if 0%{?fedora}
+# Only Fedora or el9+
+%if 0%{?fedora} || 0%{?rhel} >= 8
 BuildRequires:  python3
 BuildRequires:  autoconf-archive
+### TODO Remove condition when autogen become available in el9
+%if 0%{?fedora} || 0%{?rhel} != 9
 BuildRequires:  autogen
+%endif
 BuildRequires:  findutils
 %else
-# Only CentOS
+# Only CentOS <= el7
 BuildRequires:  python2
 %endif
 
 BuildRequires:  systemd
+%if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:  libbpf-devel
+BuildRequires:  libbpf-static
+%endif
 
 Requires:       nodejs
 Requires:       curl
@@ -178,7 +158,7 @@ License:        GPLv3
 freeipmi plugin for netdata
 
 %prep
-%setup -qn %{name}-%{upver}%{?rcver:-%{rcver}}
+%setup -qn %{name}-v%{upver}%{?rcver:-%{rcver}}
 %patch0 -p1
 %if 0%{?fedora}
 # Remove embedded font(added in requires)
@@ -187,47 +167,15 @@ rm -rf web/fonts web/gui/dashboard/static/media
 %endif
 cp %{SOURCE5} .
 
-### BEGIN netdata cloud
-%if %{with bundledlws}
-mkdir -p externaldeps/libwebsockets
-tar -xzf %{SOURCE10} -C externaldeps/libwebsockets
-%endif
-%if %{with bundledmosquitto}
-mkdir -p externaldeps/mosquitto
-tar -xzf %{SOURCE11} -C externaldeps/mosquitto
-%endif
-### END netdata cloud
-
 %build
-### BEGIN netdata cloud
-%if %{with bundledlws}
-pushd externaldeps/libwebsockets/libwebsockets-%{lws_version}
-CFLAGS="${CFLAGS} -fPIC" cmake -D LWS_WITH_SOCKS5:boolean=YES .
-CFLAGS="${CFLAGS} -fPIC" %make_build
-popd
-cp -a externaldeps/libwebsockets/libwebsockets-%{lws_version}/lib/libwebsockets.a externaldeps/libwebsockets/
-cp -a externaldeps/libwebsockets/libwebsockets-%{lws_version}/include externaldeps/libwebsockets/
-%endif
-%if %{with bundledmosquitto}
-pushd externaldeps/mosquitto/mosquitto-v.%{mosquitto_version}%{mosquitto_patch}/lib
-CFLAGS="${CFLAGS} -fPIC" %make_build
-popd
-cp -a externaldeps/mosquitto/mosquitto-v.%{mosquitto_version}%{mosquitto_patch}/lib/libmosquitto.a externaldeps/mosquitto/
-cp -a externaldeps/mosquitto/mosquitto-v.%{mosquitto_version}%{mosquitto_patch}/lib/mosquitto.h externaldeps/mosquitto/
-%endif
-### END netdata cloud
 autoreconf -ivf
 %configure \
-    --enable-unit-tests \
     --enable-plugin-freeipmi \
 %if %{with netfilteracct}
     --enable-plugin-nfacct \
 %endif
 %if %{with cups}
     --enable-plugin-cups \
-%endif
-%if %{with bundledlws}
-    --with-bundled-lws=externaldeps/libwebsockets \
 %endif
     --with-zlib \
     --with-math \
@@ -293,7 +241,7 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %systemd_postun_with_restart %{name}.service
 
 %files
-%doc README.md CHANGELOG.md HISTORICAL_CHANGELOG.md BREAKING_CHANGES.md BUILD.md README-packager.md
+%doc README.md CHANGELOG.md README-packager.md
 %license LICENSE REDISTRIBUTED.md
 %{_sbindir}/%{name}
 %{_sbindir}/%{name}-claim.sh
@@ -355,6 +303,10 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Thu Feb 17 2022 Didier Fabert <didier.fabert@gmail.com> 1.33.1-1
+- Update from upstream
+- Enable el9 build
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1.32.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 

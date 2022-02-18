@@ -1,0 +1,408 @@
+Fix shebang according to
+https://docs.fedoraproject.org/en-US/packaging-guidelines/#_shebang_lines
+
+diff -rup a/backends/nc-backend.sh b/backends/nc-backend.sh
+--- a/backends/nc-backend.sh	2022-02-14 18:01:12.144767227 +0100
++++ b/backends/nc-backend.sh	2022-02-17 19:42:53.167055475 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
+diff -rup a/claim/netdata-claim.sh.in b/claim/netdata-claim.sh.in
+--- a/claim/netdata-claim.sh.in	2022-02-14 18:01:12.148767260 +0100
++++ b/claim/netdata-claim.sh.in	2022-02-17 19:42:53.168055480 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # netdata
+ # real-time performance and health monitoring, done right!
+ # (C) 2017 Costa Tsaousis <costa@tsaousis.gr>
+diff -rup a/collectors/cgroups.plugin/cgroup-name.sh b/collectors/cgroups.plugin/cgroup-name.sh
+--- a/collectors/cgroups.plugin/cgroup-name.sh	2022-02-14 18:02:10.045550210 +0100
++++ b/collectors/cgroups.plugin/cgroup-name.sh	2022-02-17 19:42:53.185055570 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ #shellcheck disable=SC2001
+ 
+ # netdata
+diff -rup a/collectors/cgroups.plugin/cgroup-name.sh.in b/collectors/cgroups.plugin/cgroup-name.sh.in
+--- a/collectors/cgroups.plugin/cgroup-name.sh.in	2022-02-14 18:01:12.152767292 +0100
++++ b/collectors/cgroups.plugin/cgroup-name.sh.in	2022-02-17 19:42:53.187055580 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ #shellcheck disable=SC2001
+ 
+ # netdata
+diff -rup a/collectors/cgroups.plugin/cgroup-network-helper.sh b/collectors/cgroups.plugin/cgroup-network-helper.sh
+--- a/collectors/cgroups.plugin/cgroup-network-helper.sh	2022-02-14 18:01:12.152767292 +0100
++++ b/collectors/cgroups.plugin/cgroup-network-helper.sh	2022-02-17 19:42:53.183055560 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # shellcheck disable=SC1117
+ 
+ # cgroup-network-helper.sh
+diff -rup a/collectors/charts.d.plugin/charts.d.dryrun-helper.sh b/collectors/charts.d.plugin/charts.d.dryrun-helper.sh
+--- a/collectors/charts.d.plugin/charts.d.dryrun-helper.sh	2022-02-14 18:01:12.152767292 +0100
++++ b/collectors/charts.d.plugin/charts.d.dryrun-helper.sh	2022-02-17 19:42:53.175055517 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
+ # shellcheck disable=SC2181
+diff -rup a/collectors/charts.d.plugin/charts.d.plugin b/collectors/charts.d.plugin/charts.d.plugin
+--- a/collectors/charts.d.plugin/charts.d.plugin	2022-02-14 18:02:10.093550803 +0100
++++ b/collectors/charts.d.plugin/charts.d.plugin	2022-02-17 19:42:53.173055507 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
+ # netdata
+diff -rup a/collectors/charts.d.plugin/charts.d.plugin.in b/collectors/charts.d.plugin/charts.d.plugin.in
+--- a/collectors/charts.d.plugin/charts.d.plugin.in	2022-02-14 18:01:12.156767325 +0100
++++ b/collectors/charts.d.plugin/charts.d.plugin.in	2022-02-17 19:42:53.180055543 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
+ # netdata
+diff -rup a/collectors/fping.plugin/fping.plugin b/collectors/fping.plugin/fping.plugin
+--- a/collectors/fping.plugin/fping.plugin	2022-02-14 18:02:10.305553425 +0100
++++ b/collectors/fping.plugin/fping.plugin	2022-02-17 19:42:53.197055633 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
+ # netdata
+diff -rup a/collectors/fping.plugin/fping.plugin.in b/collectors/fping.plugin/fping.plugin.in
+--- a/collectors/fping.plugin/fping.plugin.in	2022-02-14 18:01:12.160767358 +0100
++++ b/collectors/fping.plugin/fping.plugin.in	2022-02-17 19:42:53.199055644 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
+ # netdata
+diff -rup a/collectors/ioping.plugin/ioping.plugin b/collectors/ioping.plugin/ioping.plugin
+--- a/collectors/ioping.plugin/ioping.plugin	2022-02-14 18:02:10.349553970 +0100
++++ b/collectors/ioping.plugin/ioping.plugin	2022-02-17 19:42:53.203055665 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
+ # netdata
+diff -rup a/collectors/ioping.plugin/ioping.plugin.in b/collectors/ioping.plugin/ioping.plugin.in
+--- a/collectors/ioping.plugin/ioping.plugin.in	2022-02-14 18:01:12.164767390 +0100
++++ b/collectors/ioping.plugin/ioping.plugin.in	2022-02-17 19:42:53.201055654 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
+ # netdata
+diff -rup a/collectors/node.d.plugin/node.d.plugin b/collectors/node.d.plugin/node.d.plugin
+--- a/collectors/node.d.plugin/node.d.plugin	2022-02-14 18:02:10.621557334 +0100
++++ b/collectors/node.d.plugin/node.d.plugin	2022-02-17 19:42:53.189055591 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ ':' //; exec "$(command -v nodejs || command -v node || echo "ERROR node IS NOT AVAILABLE IN THIS SYSTEM")" "$0" "$@"
+ 
+ // shebang hack from:
+diff -rup a/collectors/node.d.plugin/node.d.plugin.in b/collectors/node.d.plugin/node.d.plugin.in
+--- a/collectors/node.d.plugin/node.d.plugin.in	2022-02-14 18:01:12.164767390 +0100
++++ b/collectors/node.d.plugin/node.d.plugin.in	2022-02-17 19:42:53.190055596 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ ':' //; exec "$(command -v nodejs || command -v node || echo "ERROR node IS NOT AVAILABLE IN THIS SYSTEM")" "$0" "$@"
+ 
+ // shebang hack from:
+diff -rup a/collectors/python.d.plugin/python.d.plugin b/collectors/python.d.plugin/python.d.plugin
+--- a/collectors/python.d.plugin/python.d.plugin	2022-02-14 18:02:10.737558769 +0100
++++ b/collectors/python.d.plugin/python.d.plugin	2022-02-17 19:42:53.194055617 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ '''':;
+ pybinary=$(which python3 || which python || which python2)
+ filtered=()
+diff -rup a/collectors/python.d.plugin/python.d.plugin.in b/collectors/python.d.plugin/python.d.plugin.in
+--- a/collectors/python.d.plugin/python.d.plugin.in	2022-02-14 18:01:12.188767586 +0100
++++ b/collectors/python.d.plugin/python.d.plugin.in	2022-02-17 19:42:53.192055607 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ '''':;
+ pybinary=$(which python3 || which python || which python2)
+ filtered=()
+diff -rup a/collectors/python.d.plugin/python_modules/third_party/boinc_client.py b/collectors/python.d.plugin/python_modules/third_party/boinc_client.py
+--- a/collectors/python.d.plugin/python_modules/third_party/boinc_client.py	2022-02-14 18:01:12.192767618 +0100
++++ b/collectors/python.d.plugin/python_modules/third_party/boinc_client.py	2022-02-17 19:42:53.329056329 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#
+ # -*- coding: utf-8 -*-
+ #
+ # client.py - Somewhat higher-level GUI_RPC API for BOINC core client
+diff -rup a/collectors/tc.plugin/tc-qos-helper.sh b/collectors/tc.plugin/tc-qos-helper.sh
+--- a/collectors/tc.plugin/tc-qos-helper.sh	2022-02-14 18:02:11.425567092 +0100
++++ b/collectors/tc.plugin/tc-qos-helper.sh	2022-02-17 19:42:53.171055496 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ # netdata
+ # real-time performance and health monitoring, done right!
+diff -rup a/collectors/tc.plugin/tc-qos-helper.sh.in b/collectors/tc.plugin/tc-qos-helper.sh.in
+--- a/collectors/tc.plugin/tc-qos-helper.sh.in	2022-02-14 18:01:12.200767684 +0100
++++ b/collectors/tc.plugin/tc-qos-helper.sh.in	2022-02-17 19:42:53.170055491 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ # netdata
+ # real-time performance and health monitoring, done right!
+diff -rup a/contrib/debian/install_go.sh b/contrib/debian/install_go.sh
+--- a/contrib/debian/install_go.sh	2022-02-14 18:01:12.200767684 +0100
++++ b/contrib/debian/install_go.sh	2022-02-17 19:42:53.206055680 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ GO_PACKAGE_VERSION="$1"
+ LIB_DIR="$2"
+diff -rup a/contrib/rhel/build-netdata-rpm.sh b/contrib/rhel/build-netdata-rpm.sh
+--- a/contrib/rhel/build-netdata-rpm.sh	2022-02-14 18:01:12.200767684 +0100
++++ b/contrib/rhel/build-netdata-rpm.sh	2022-02-17 19:42:53.204055670 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ # docker run -it --rm centos:6.9 /bin/sh
+ # yum -y install rpm-build redhat-rpm-config yum-utils autoconf automake curl gcc git libmnl-devel libuuid-devel make pkgconfig zlib-devel
+diff -rup a/contrib/sles11/alarm-notify-basic.bash3.sh b/contrib/sles11/alarm-notify-basic.bash3.sh
+--- a/contrib/sles11/alarm-notify-basic.bash3.sh	2022-02-14 18:01:12.200767684 +0100
++++ b/contrib/sles11/alarm-notify-basic.bash3.sh	2022-02-17 19:42:53.207055686 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ # basic version of netdata notifier to work with bash3
+ # only mail and syslog destinations are supported, one recipient each
+diff -rup a/coverity-scan.sh b/coverity-scan.sh
+--- a/coverity-scan.sh	2022-02-14 18:01:12.200767684 +0100
++++ b/coverity-scan.sh	2022-02-17 19:42:53.210055702 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ #
+ # Coverity scan script
+ #
+diff -rup a/cppcheck.sh b/cppcheck.sh
+--- a/cppcheck.sh	2022-02-14 18:01:12.200767684 +0100
++++ b/cppcheck.sh	2022-02-17 19:42:53.212055712 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ # echo >>/tmp/cppcheck.log "cppcheck ${*}"
+ 
+diff -rup a/daemon/anonymous-statistics.sh b/daemon/anonymous-statistics.sh
+--- a/daemon/anonymous-statistics.sh	2022-02-14 18:02:11.469567624 +0100
++++ b/daemon/anonymous-statistics.sh	2022-02-17 19:42:53.242055870 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env sh
++#!/usr/bin/sh
+ 
+ # Valid actions:
+ 
+diff -rup a/daemon/anonymous-statistics.sh.in b/daemon/anonymous-statistics.sh.in
+--- a/daemon/anonymous-statistics.sh.in	2022-02-14 18:01:12.204767716 +0100
++++ b/daemon/anonymous-statistics.sh.in	2022-02-17 19:42:53.241055865 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env sh
++#!/usr/bin/sh
+ 
+ # Valid actions:
+ 
+diff -rup a/daemon/get-kubernetes-labels.sh b/daemon/get-kubernetes-labels.sh
+--- a/daemon/get-kubernetes-labels.sh	2022-02-14 18:02:11.473567673 +0100
++++ b/daemon/get-kubernetes-labels.sh	2022-02-17 19:42:53.216055733 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ # Checks if netdata is running in a kubernetes pod and fetches that pod's labels
+ 
+diff -rup a/daemon/get-kubernetes-labels.sh.in b/daemon/get-kubernetes-labels.sh.in
+--- a/daemon/get-kubernetes-labels.sh.in	2022-02-14 18:01:12.204767716 +0100
++++ b/daemon/get-kubernetes-labels.sh.in	2022-02-17 19:42:53.214055723 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ # Checks if netdata is running in a kubernetes pod and fetches that pod's labels
+ 
+diff -rup a/daemon/system-info.sh b/daemon/system-info.sh
+--- a/daemon/system-info.sh	2022-02-14 18:01:12.204767716 +0100
++++ b/daemon/system-info.sh	2022-02-17 19:42:53.239055855 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env sh
++#!/usr/bin/sh
+ 
+ # -------------------------------------------------------------------------------------------------
+ # detect the kernel
+diff -rup a/diagrams/build.sh b/diagrams/build.sh
+--- a/diagrams/build.sh	2022-02-14 18:01:12.260768173 +0100
++++ b/diagrams/build.sh	2022-02-17 19:42:53.217055738 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
+ path=$(dirname "$0")
+diff -rup a/exporting/nc-exporting.sh b/exporting/nc-exporting.sh
+--- a/exporting/nc-exporting.sh	2022-02-14 18:01:12.272768270 +0100
++++ b/exporting/nc-exporting.sh	2022-02-17 19:42:53.219055749 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
+diff -rup a/health/notifications/alarm-email.sh b/health/notifications/alarm-email.sh
+--- a/health/notifications/alarm-email.sh	2022-02-14 18:01:12.276768303 +0100
++++ b/health/notifications/alarm-email.sh	2022-02-17 19:42:53.220055754 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
+ # OBSOLETE - REPLACED WITH
+diff -rup a/health/notifications/alarm-notify.sh b/health/notifications/alarm-notify.sh
+--- a/health/notifications/alarm-notify.sh	2022-02-14 18:02:12.081575024 +0100
++++ b/health/notifications/alarm-notify.sh	2022-02-17 19:42:53.222055765 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ #shellcheck source=/dev/null disable=SC2086,SC2154
+ 
+ # netdata
+diff -rup a/health/notifications/alarm-notify.sh.in b/health/notifications/alarm-notify.sh.in
+--- a/health/notifications/alarm-notify.sh.in	2022-02-14 18:01:12.280768336 +0100
++++ b/health/notifications/alarm-notify.sh.in	2022-02-17 19:42:53.224055775 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ #shellcheck source=/dev/null disable=SC2086,SC2154
+ 
+ # netdata
+diff -rup a/health/notifications/alarm-test.sh b/health/notifications/alarm-test.sh
+--- a/health/notifications/alarm-test.sh	2022-02-14 18:01:12.280768336 +0100
++++ b/health/notifications/alarm-test.sh	2022-02-17 19:42:53.226055786 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ # netdata
+ # real-time performance and health monitoring, done right!
+diff -rup a/ml/kmeans/dlib/dlib/external/pybind11/tools/mkdoc.py b/ml/kmeans/dlib/dlib/external/pybind11/tools/mkdoc.py
+--- a/ml/kmeans/dlib/dlib/external/pybind11/tools/mkdoc.py	2022-02-14 18:01:30.753067208 +0100
++++ b/ml/kmeans/dlib/dlib/external/pybind11/tools/mkdoc.py	2022-02-17 19:42:53.332056344 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python3
++#!/usr/bin/python33
+ #
+ #  Syntax: mkdoc.py [-I<path> ..] [.. a list of header files ..]
+ #
+diff -rup a/ml/kmeans/dlib/dlib/travis/build-and-test.sh b/ml/kmeans/dlib/dlib/travis/build-and-test.sh
+--- a/ml/kmeans/dlib/dlib/travis/build-and-test.sh	2022-02-14 18:01:30.845068308 +0100
++++ b/ml/kmeans/dlib/dlib/travis/build-and-test.sh	2022-02-17 19:42:53.229055802 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # Exit if anything fails.
+ set -eux
+ 
+diff -rup a/ml/kmeans/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py b/ml/kmeans/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py
+--- a/ml/kmeans/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py	2022-02-14 18:01:30.905069026 +0100
++++ b/ml/kmeans/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py	2022-02-17 19:42:53.334056355 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/python3
+ 
+ # This script takes the dlib lenet model trained by the
+ # examples/dnn_introduction_ex.cpp example program and runs it using caffe. 
+diff -rup a/packaging/check-kernel-config.sh b/packaging/check-kernel-config.sh
+--- a/packaging/check-kernel-config.sh	2022-02-14 18:01:12.292768433 +0100
++++ b/packaging/check-kernel-config.sh	2022-02-17 19:42:53.232055817 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ 
+ get_kernel_version() {
+   r="$(uname -r | cut -f 1 -d '-')"
+diff -rup a/packaging/installer/netdata-uninstaller.sh b/packaging/installer/netdata-uninstaller.sh
+--- a/packaging/installer/netdata-uninstaller.sh	2022-02-14 18:01:12.292768433 +0100
++++ b/packaging/installer/netdata-uninstaller.sh	2022-02-17 19:42:53.230055807 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ #
+ # This is the netdata uninstaller script
+ #
+diff -rup a/system/edit-config b/system/edit-config
+--- a/system/edit-config	2022-02-14 18:02:09.541543976 +0100
++++ b/system/edit-config	2022-02-17 19:42:53.244055881 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env sh
++#!/usr/bin/sh
+ 
+ [ -f /etc/profile ] && . /etc/profile
+ 
+diff -rup a/system/edit-config.in b/system/edit-config.in
+--- a/system/edit-config.in	2022-02-14 18:01:12.300768498 +0100
++++ b/system/edit-config.in	2022-02-17 19:42:53.246055891 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env sh
++#!/usr/bin/sh
+ 
+ [ -f /etc/profile ] && . /etc/profile
+ 
+diff -rup a/system/netdata-lsb.in b/system/netdata-lsb.in
+--- a/system/netdata-lsb.in	2022-02-14 18:01:12.300768498 +0100
++++ b/system/netdata-lsb.in	2022-02-17 19:42:53.234055828 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ #
+ # Netdata LSB start script
+ #
+diff -rup a/tests/health_mgmtapi/health-cmdapi-test.sh b/tests/health_mgmtapi/health-cmdapi-test.sh
+--- a/tests/health_mgmtapi/health-cmdapi-test.sh	2022-02-14 18:02:09.601544718 +0100
++++ b/tests/health_mgmtapi/health-cmdapi-test.sh	2022-02-17 19:42:53.236055839 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # shellcheck disable=SC1117,SC2034,SC2059,SC2086,SC2181
+ 
+ NETDATA_VARLIB_DIR="/var/lib/netdata"
+diff -rup a/tests/health_mgmtapi/health-cmdapi-test.sh.in b/tests/health_mgmtapi/health-cmdapi-test.sh.in
+--- a/tests/health_mgmtapi/health-cmdapi-test.sh.in	2022-02-14 18:01:12.300768498 +0100
++++ b/tests/health_mgmtapi/health-cmdapi-test.sh.in	2022-02-17 19:42:53.237055844 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/bash
+ # shellcheck disable=SC1117,SC2034,SC2059,SC2086,SC2181
+ 
+ NETDATA_VARLIB_DIR="@varlibdir_POST@"
