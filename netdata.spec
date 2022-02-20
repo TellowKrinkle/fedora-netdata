@@ -33,7 +33,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see LICENSE-REDISTRIBUTED.md
 License:        GPLv3 and GPLv3+ and ASL 2.0 and CC-BY and MIT and WTFPL 
@@ -53,6 +53,7 @@ Patch10:        netdata-remove-fonts-1.33.1.patch
 BuildRequires:  zlib-devel
 BuildRequires:  git
 BuildRequires:  autoconf
+BuildRequires:  autoconf-archive
 BuildRequires:  automake
 BuildRequires:  pkgconfig
 BuildRequires:  libuuid-devel
@@ -66,19 +67,27 @@ BuildRequires:  openssl-devel
 BuildRequires:  libmnl-devel
 BuildRequires:  make
 BuildRequires:  libcurl-devel
+BuildRequires:  systemd
+BuildRequires:  openssl-devel
+BuildRequires:  libpfm-devel
+### TODO Remove condition when autogen become available in el9
+%if 0%{?rhel} && 0%{?rhel} == 9
+%else
+BuildRequires:  autogen
+%endif
+
 # Prometheus
 BuildRequires:  snappy-devel
 BuildRequires:  protobuf-devel
 BuildRequires:  protobuf-c-devel
+BuildRequires:  findutils
 
 # Cloud client
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  json-c-devel
 BuildRequires:  libcap-devel
-BuildRequires:  openssl
 
-# BuildRequires:  libpfm-devel
 # For tests
 BuildRequires:  libcmocka-devel
 
@@ -88,21 +97,12 @@ BuildRequires:  cups-devel >= 1.7
 %if %{with netfilteracct}
 BuildRequires:  libnetfilter_acct-devel
 %endif
-# Only Fedora or el9+
+# Only Fedora or el8+
 %if 0%{?fedora} || 0%{?rhel} >= 8
 BuildRequires:  python3
-BuildRequires:  autoconf-archive
-### TODO Remove condition when autogen become available in el9
-%if 0%{?fedora} || 0%{?rhel} != 9
-BuildRequires:  autogen
-%endif
-BuildRequires:  findutils
 %else
-# Only CentOS <= el7
 BuildRequires:  python2
 %endif
-
-BuildRequires:  systemd
 
 Requires:       nodejs
 Requires:       curl
@@ -299,6 +299,9 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Sun Feb 20 2022 Didier Fabert <didier.fabert@gmail.com> 1.33.1-2
+- Fix el9 buildreq condition for autogen
+
 * Thu Feb 17 2022 Didier Fabert <didier.fabert@gmail.com> 1.33.1-1
 - Update from upstream
 - Enable el9 build
