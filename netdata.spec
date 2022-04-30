@@ -17,6 +17,13 @@ ExcludeArch: s390x
 %bcond_without cups
 %endif
 
+# Because protobuf is too old in el7
+%if 0%{?rhel} && 0%{?rhel} == 7
+%bcond_without bundled_protobuf
+%else
+%bcond_with bundled_protobuf
+%endif
+
 %if 0%{?rhel} && 0%{?rhel} <= 7
 # This is temporary and should eventually be resolved. This bypasses
 # the default rhel __os_install_post which throws a python compile
@@ -28,12 +35,17 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.33.1
+%global upver        1.34.1
 #global rcver        rc0
+
+# Last python 2 support (el7 only)
+%global protobuf_cpp_ver 3.17.3
+
+%global stock_conf_path %{_prefix}/lib/%{name}
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see LICENSE-REDISTRIBUTED.md
 License:        GPLv3 and GPLv3+ and ASL 2.0 and CC-BY and MIT and WTFPL 
@@ -42,12 +54,13 @@ Source0:        https://github.com/netdata/netdata/releases/download/v%{upver}%{
 Source1:        netdata.tmpfiles.conf
 Source2:        netdata.init
 Source3:        netdata.conf
-Source4:        netdata.profile
 Source5:        README-packager.md
-Patch0:         netdata-fix-shebang-1.33.1.patch
+# Only for el7
+Source10:       https://github.com/protocolbuffers/protobuf/releases/download/v%{protobuf_cpp_ver}/protobuf-cpp-%{protobuf_cpp_ver}.tar.gz
+Patch0:         netdata-fix-shebang-1.34.1.patch
 %if 0%{?fedora}
 # Remove embedded font
-Patch10:        netdata-remove-fonts-1.33.1.patch
+Patch10:        netdata-remove-fonts-1.34.1.patch
 %endif
 
 BuildRequires:  zlib-devel
@@ -103,6 +116,7 @@ BuildRequires:  python3
 %else
 BuildRequires:  python2
 %endif
+
 
 Requires:       nodejs
 Requires:       curl
@@ -162,8 +176,27 @@ freeipmi plugin for netdata
 rm -rf web/fonts web/gui/dashboard/static/media
 %endif
 cp %{SOURCE5} .
+### BEGIN netdata cloud
+%if %{with bundled_protobuf}
+mkdir -p externaldeps/protobuf
+tar -xzf %{SOURCE10} -C externaldeps/protobuf
+%endif
+### END netdata cloud
 
 %build
+### BEGIN netdata cloud
+%if %{with bundled_protobuf}
+pushd externaldeps/protobuf/protobuf-%{protobuf_cpp_ver}
+%configure \
+    --disable-shared \
+    --without-zlib \
+    --disable-dependency-tracking \
+    --with-pic
+CFLAGS="${CFLAGS} -fPIC" %make_build
+popd
+cp -a externaldeps/protobuf/protobuf-%{protobuf_cpp_ver}/src externaldeps/protobuf
+%endif
+### END netdata cloud
 autoreconf -ivf
 %configure \
     --enable-plugin-freeipmi \
@@ -173,10 +206,13 @@ autoreconf -ivf
 %if %{with cups}
     --enable-plugin-cups \
 %endif
+%if %{with bundled_protobuf}
+    --with-bundled-protobuf \
+%endif
     --with-zlib \
     --with-math \
     --with-user=netdata
-    
+
 %make_build
 
 %install
@@ -197,10 +233,18 @@ mkdir -p %{buildroot}%{_localstatedir}/cache/%{name}
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 install -p -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/%{name}/
 install -p -m 0644 system/netdata.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
-# Conf files must be in /etc, dixit FHS and it's better in a noarch pkg 
-mv %{buildroot}%{_libdir}/%{name}/conf.d %{buildroot}%{_sysconfdir}/%{name}/
-# Scripts must not be in /etc
+# it's better to put stock config file in a noarch pkg (like systemd)
+%ifarch x86_64
+mkdir -p %{buildroot}%{stock_conf_path}/conf.d
+mv %{buildroot}%{_libdir}/%{name}/conf.d/* %{buildroot}%{stock_conf_path}/conf.d
+%endif
+
+# Scripts must not be in /etc, /usr/libexec is a better place
 mv %{buildroot}%{_sysconfdir}/%{name}/edit-config %{buildroot}%{_libexecdir}/%{name}/edit-config
+# Force stock config file to a noarch path (like systemd)
+%ifarch x86_64
+sed -i -e '/NETDATA_STOCK_CONFIG_DIR/ s/lib64/lib/' %{buildroot}%{_libexecdir}/%{name}/edit-config
+%endif
 # Fix EOL
 sed -i -e 's/\r//' %{buildroot}%{_datadir}/%{name}/web/lib/tableExport-1.6.0.min.js
 # Delete useless hidden dir
@@ -212,10 +256,6 @@ for dir in charts.d health.d python.d statsd.d ; do
   mkdir -p %{buildroot}%{_sysconfdir}/%{name}/${dir}
 done
 
-mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-install -p -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/profile.d/netdata.sh
-rm -f %{buildroot}%{_sysconfdir}/netdata/.install-type
-
 %check
 make tests
 
@@ -225,6 +265,9 @@ getent passwd netdata > /dev/null || useradd -r -g netdata -c "NetData User" -s 
 
 %post
 sed -i -e '/web files group/ s/root/netdata/' /etc/netdata/netdata.conf ||:
+sed -i -e '/stock config directory/ s;/etc/netdata/conf.d;/usr/lib/netdata/conf.d;' /etc/netdata/netdata.conf ||:
+sed -i -e '/stock health configuration directory/ s;/etc/netdata/conf.d/health.d;/usr/lib/netdata/conf.d/health.d;' /etc/netdata/netdata.conf ||:
+rm -f %{_sysconfdir}/profile.d/netdata.sh ||:
 %systemd_post %{name}.service
 echo "The current config file can be downloaded with the following command"
 echo "curl -o /etc/netdata/netdata.conf http://localhost:19999/netdata.conf"
@@ -268,21 +311,11 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %dir %{_sysconfdir}/%{name}/health.d
 %dir %{_sysconfdir}/%{name}/python.d
 %dir %{_sysconfdir}/%{name}/statsd.d
-%dir %{_sysconfdir}/%{name}/conf.d
-%dir %{_sysconfdir}/%{name}/conf.d/charts.d
-%dir %{_sysconfdir}/%{name}/conf.d/health.d
-%dir %{_sysconfdir}/%{name}/conf.d/python.d
-%dir %{_sysconfdir}/%{name}/conf.d/statsd.d
-%dir %{_sysconfdir}/%{name}/conf.d/ebpf.d
-%config %{_sysconfdir}/%{name}/%{name}.conf
-%config %{_sysconfdir}/%{name}/conf.d/*.conf
-%config %{_sysconfdir}/%{name}/conf.d/charts.d/*.conf
-%config %{_sysconfdir}/%{name}/conf.d/health.d/*.conf
-%config %{_sysconfdir}/%{name}/conf.d/python.d/*.conf
-%config %{_sysconfdir}/%{name}/conf.d/statsd.d/*.conf
-%config %{_sysconfdir}/%{name}/conf.d/ebpf.d/*.conf
-%config %{_sysconfdir}/logrotate.d/netdata
-%config %{_sysconfdir}/profile.d/netdata.sh
+%dir %{stock_conf_path}
+%{_sysconfdir}/%{name}/.install-type
+%{stock_conf_path}/conf.d/*
+%config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
+%config(noreplace) %{_sysconfdir}/logrotate.d/netdata
 %dir %{_libexecdir}/%{name}
 %{_libexecdir}/%{name}/edit-config
 
@@ -299,6 +332,11 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Sat Apr 30 2022 Didier Fabert <didier.fabert@gmail.com> 1.34.1-1
+- Update from upstream
+- Move stock config files in /usr/lib/netdata/conf.d
+- Use embedded protobuf-cpp for el7
+
 * Sun Feb 20 2022 Didier Fabert <didier.fabert@gmail.com> 1.33.1-2
 - Fix el9 buildreq condition for autogen
 

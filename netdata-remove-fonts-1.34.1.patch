@@ -1,9 +1,9 @@
 diff -rup a/web/gui/dashboard/Makefile.am b/web/gui/dashboard/Makefile.am
---- a/web/gui/dashboard/Makefile.am	2022-02-14 17:58:30.000000000 +0100
-+++ b/web/gui/dashboard/Makefile.am	2022-02-16 19:17:22.648816557 +0100
+--- a/web/gui/dashboard/Makefile.am	2022-04-14 13:22:42.927570498 +0200
++++ b/web/gui/dashboard/Makefile.am	2022-04-19 22:57:25.589407143 +0200
 @@ -163,36 +163,3 @@ dist_webstaticjs_DATA = \
-     static/js/runtime-main.ec4d2459.js \
-     static/js/runtime-main.ec4d2459.js.map \
+     static/js/runtime-main.b352aa47.js \
+     static/js/runtime-main.b352aa47.js.map \
      $(NULL)
 -
 -webstaticmediadir=$(webdir)/static/media
