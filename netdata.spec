@@ -41,7 +41,6 @@ ExcludeArch: s390x
 # Last python 2 support (el7 only)
 %global protobuf_cpp_ver 3.17.3
 
-%global stock_conf_path %{_prefix}/lib/%{name}
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
@@ -54,6 +53,7 @@ Source0:        https://github.com/netdata/netdata/releases/download/v%{upver}%{
 Source1:        netdata.tmpfiles.conf
 Source2:        netdata.init
 Source3:        netdata.conf
+Source4:        netdata.profile
 Source5:        README-packager.md
 # Only for el7
 Source10:       https://github.com/protocolbuffers/protobuf/releases/download/v%{protobuf_cpp_ver}/protobuf-cpp-%{protobuf_cpp_ver}.tar.gz
@@ -212,7 +212,7 @@ autoreconf -ivf
     --with-zlib \
     --with-math \
     --with-user=netdata
-
+    
 %make_build
 
 %install
@@ -233,18 +233,10 @@ mkdir -p %{buildroot}%{_localstatedir}/cache/%{name}
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 install -p -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/%{name}/
 install -p -m 0644 system/netdata.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
-# it's better to put stock config file in a noarch pkg (like systemd)
-%ifarch x86_64
-mkdir -p %{buildroot}%{stock_conf_path}/conf.d
-mv %{buildroot}%{_libdir}/%{name}/conf.d/* %{buildroot}%{stock_conf_path}/conf.d
-%endif
-
+# Conf files must be in /etc, dixit FHS and it's better in a noarch pkg 
+mv %{buildroot}%{_libdir}/%{name}/conf.d %{buildroot}%{_sysconfdir}/%{name}/
 # Scripts must not be in /etc, /usr/libexec is a better place
 mv %{buildroot}%{_sysconfdir}/%{name}/edit-config %{buildroot}%{_libexecdir}/%{name}/edit-config
-# Force stock config file to a noarch path (like systemd)
-%ifarch x86_64
-sed -i -e '/NETDATA_STOCK_CONFIG_DIR/ s/lib64/lib/' %{buildroot}%{_libexecdir}/%{name}/edit-config
-%endif
 # Fix EOL
 sed -i -e 's/\r//' %{buildroot}%{_datadir}/%{name}/web/lib/tableExport-1.6.0.min.js
 # Delete useless hidden dir
@@ -256,6 +248,9 @@ for dir in charts.d health.d python.d statsd.d ; do
   mkdir -p %{buildroot}%{_sysconfdir}/%{name}/${dir}
 done
 
+mkdir -p %{buildroot}%{_sysconfdir}/profile.d
+install -p -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/profile.d/netdata.sh
+
 %check
 make tests
 
@@ -265,9 +260,6 @@ getent passwd netdata > /dev/null || useradd -r -g netdata -c "NetData User" -s 
 
 %post
 sed -i -e '/web files group/ s/root/netdata/' /etc/netdata/netdata.conf ||:
-sed -i -e '/stock config directory/ s;/etc/netdata/conf.d;/usr/lib/netdata/conf.d;' /etc/netdata/netdata.conf ||:
-sed -i -e '/stock health configuration directory/ s;/etc/netdata/conf.d/health.d;/usr/lib/netdata/conf.d/health.d;' /etc/netdata/netdata.conf ||:
-rm -f %{_sysconfdir}/profile.d/netdata.sh ||:
 %systemd_post %{name}.service
 echo "The current config file can be downloaded with the following command"
 echo "curl -o /etc/netdata/netdata.conf http://localhost:19999/netdata.conf"
@@ -311,13 +303,24 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %dir %{_sysconfdir}/%{name}/health.d
 %dir %{_sysconfdir}/%{name}/python.d
 %dir %{_sysconfdir}/%{name}/statsd.d
-%dir %{stock_conf_path}
-%{_sysconfdir}/%{name}/.install-type
-%{stock_conf_path}/conf.d/*
+%dir %{_sysconfdir}/%{name}/conf.d
+%dir %{_sysconfdir}/%{name}/conf.d/charts.d
+%dir %{_sysconfdir}/%{name}/conf.d/health.d
+%dir %{_sysconfdir}/%{name}/conf.d/python.d
+%dir %{_sysconfdir}/%{name}/conf.d/statsd.d
+%dir %{_sysconfdir}/%{name}/conf.d/ebpf.d
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
-%config(noreplace) %{_sysconfdir}/logrotate.d/netdata
+%config %{_sysconfdir}/%{name}/conf.d/*.conf
+%config %{_sysconfdir}/%{name}/conf.d/charts.d/*.conf
+%config %{_sysconfdir}/%{name}/conf.d/health.d/*.conf
+%config %{_sysconfdir}/%{name}/conf.d/python.d/*.conf
+%config %{_sysconfdir}/%{name}/conf.d/statsd.d/*.conf
+%config %{_sysconfdir}/%{name}/conf.d/ebpf.d/*.conf
+%config %{_sysconfdir}/logrotate.d/netdata
+%config %{_sysconfdir}/profile.d/netdata.sh
 %dir %{_libexecdir}/%{name}
 %{_libexecdir}/%{name}/edit-config
+%{_sysconfdir}/netdata/.install-type
 
 %files data
 %doc README.md
