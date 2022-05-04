@@ -24,6 +24,13 @@ ExcludeArch: s390x
 %bcond_with bundled_protobuf
 %endif
 
+# Because judy-devel is not available in el8 for more than 1 year
+%if 0%{?rhel} && 0%{?rhel} == 8
+%bcond_without bundled_judy
+%else
+%bcond_with bundled_judy
+%endif
+
 %if 0%{?rhel} && 0%{?rhel} <= 7
 # This is temporary and should eventually be resolved. This bypasses
 # the default rhel __os_install_post which throws a python compile
@@ -40,7 +47,8 @@ ExcludeArch: s390x
 
 # Last python 2 support (el7 only)
 %global protobuf_cpp_ver 3.17.3
-
+# el8 only
+%global judy_ver 1.0.5-netdata2
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
@@ -57,6 +65,8 @@ Source4:        netdata.profile
 Source5:        README-packager.md
 # Only for el7
 Source10:       https://github.com/protocolbuffers/protobuf/releases/download/v%{protobuf_cpp_ver}/protobuf-cpp-%{protobuf_cpp_ver}.tar.gz
+# Only for el8
+Source11:       https://github.com/netdata/libjudy/archive/v%{judy_ver}/libjudy-%{judy_ver}.tar.gz
 Patch0:         netdata-fix-shebang-1.34.1.patch
 %if 0%{?fedora}
 # Remove embedded font
@@ -74,7 +84,11 @@ BuildRequires:  freeipmi-devel
 BuildRequires:  httpd
 BuildRequires:  gcc
 BuildRequires:  libuv-devel
+%if %{with bundled_judy}
+BuildRequires:  libtool
+%else
 BuildRequires:  Judy-devel
+%endif
 BuildRequires:  lz4-devel
 BuildRequires:  openssl-devel
 BuildRequires:  libmnl-devel
@@ -183,6 +197,13 @@ tar -xzf %{SOURCE10} -C externaldeps/protobuf
 %endif
 ### END netdata cloud
 
+### BEGIN el8 judy dirty hack
+%if %{with bundled_judy}
+mkdir -p externaldeps/libJudy
+tar -xzf %{SOURCE11} -C externaldeps/libJudy
+%endif
+### END el8 judy dirty hack
+
 %build
 ### BEGIN netdata cloud
 %if %{with bundled_protobuf}
@@ -197,6 +218,24 @@ popd
 cp -a externaldeps/protobuf/protobuf-%{protobuf_cpp_ver}/src externaldeps/protobuf
 %endif
 ### END netdata cloud
+
+### BEGIN el8 judy dirty hack
+%if %{with bundled_judy}
+pushd externaldeps/libJudy/libjudy-%{judy_ver}
+libtoolize --force --copy
+aclocal
+autoheader
+automake --add-missing --force --copy --include-deps
+autoconf
+%configure
+make -C src
+ar -r src/libJudy.a src/Judy*/*.o
+popd
+cp -a externaldeps/libJudy/libjudy-%{judy_ver}/src/libJudy.a externaldeps/libJudy/
+cp -a externaldeps/libJudy/libjudy-%{judy_ver}/src/Judy.h externaldeps/libJudy/
+%endif
+### END el8 judy dirty hack
+
 autoreconf -ivf
 %configure \
     --enable-plugin-freeipmi \
@@ -208,6 +247,9 @@ autoreconf -ivf
 %endif
 %if %{with bundled_protobuf}
     --with-bundled-protobuf \
+%endif
+%if %{with bundled_judy}
+    --with-bundled-libJudy \
 %endif
     --with-zlib \
     --with-math \
