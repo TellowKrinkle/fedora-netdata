@@ -52,7 +52,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see LICENSE-REDISTRIBUTED.md
 License:        GPLv3 and GPLv3+ and ASL 2.0 and CC-BY and MIT and WTFPL 
@@ -377,9 +377,11 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Wed May 04 2022 Didier Fabert <didier.fabert@gmail.com> 1.34.1-2
+- Use embedded libjudy for el8
+
 * Sat Apr 30 2022 Didier Fabert <didier.fabert@gmail.com> 1.34.1-1
 - Update from upstream
-- Move stock config files in /usr/lib/netdata/conf.d
 - Use embedded protobuf-cpp for el7
 
 * Sun Feb 20 2022 Didier Fabert <didier.fabert@gmail.com> 1.33.1-2
