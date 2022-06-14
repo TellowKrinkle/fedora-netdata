@@ -42,7 +42,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.34.1
+%global upver        1.35.1
 #global rcver        rc0
 
 # Last python 2 support (el7 only)
@@ -67,7 +67,7 @@ Source5:        README-packager.md
 Source10:       https://github.com/protocolbuffers/protobuf/releases/download/v%{protobuf_cpp_ver}/protobuf-cpp-%{protobuf_cpp_ver}.tar.gz
 # Only for el8
 Source11:       https://github.com/netdata/libjudy/archive/v%{judy_ver}/libjudy-%{judy_ver}.tar.gz
-Patch0:         netdata-fix-shebang-1.34.1.patch
+Patch0:         netdata-fix-shebang-1.35.1.patch
 %if 0%{?fedora}
 # Remove embedded font
 Patch10:        netdata-remove-fonts-1.34.1.patch
@@ -141,6 +141,7 @@ Requires:       protobuf
 %if 0%{?fedora}
 Requires:       glyphicons-halflings-fonts
 %endif
+Requires:       logrotate
 
 Requires:       %{name}-data = %{version}-%{release}
 Requires:       %{name}-conf = %{version}-%{release}
@@ -377,6 +378,9 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Tue Jun 14 2022 Didier Fabert <didier.fabert@gmail.com> 1.35.1-1
+- Update from upstream
+
 * Wed May 04 2022 Didier Fabert <didier.fabert@gmail.com> 1.34.1-2
 - Use embedded libjudy for el8
 
