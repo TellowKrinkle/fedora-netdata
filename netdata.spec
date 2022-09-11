@@ -42,7 +42,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.36.0
+%global upver        1.36.1
 #global rcver        rc0
 
 # Last python 2 support (el7 only)
@@ -378,6 +378,12 @@ echo "Config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Sat Sep 10 2022 Didier Fabert <didier.fabert@gmail.com> 1.36.1-1
+- Update from upstream
+
+* Fri Jun 10 2022 Didier Fabert <didier.fabert@gmail.com> 1.35.1-1
+- Update from upstream
+
 * Wed May 04 2022 Didier Fabert <didier.fabert@gmail.com> 1.34.1-2
 - Use embedded libjudy for el8
 
