@@ -2,8 +2,8 @@ Fix shebang according to
 https://docs.fedoraproject.org/en-US/packaging-guidelines/#_shebang_lines
 
 diff -rup a/claim/netdata-claim.sh.in b/claim/netdata-claim.sh.in
---- a/claim/netdata-claim.sh.in	2022-08-10 20:45:57.733076095 +0200
-+++ b/claim/netdata-claim.sh.in	2022-08-13 11:26:37.360990650 +0200
+--- a/claim/netdata-claim.sh.in	2022-11-30 13:36:48.322052491 +0100
++++ b/claim/netdata-claim.sh.in	2022-12-02 19:09:02.003143386 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -11,8 +11,8 @@ diff -rup a/claim/netdata-claim.sh.in b/claim/netdata-claim.sh.in
  # real-time performance and health monitoring, done right!
  # (C) 2017 Costa Tsaousis <costa@tsaousis.gr>
 diff -rup a/collectors/cgroups.plugin/cgroup-name.sh b/collectors/cgroups.plugin/cgroup-name.sh
---- a/collectors/cgroups.plugin/cgroup-name.sh	2022-08-10 20:45:57.737076153 +0200
-+++ b/collectors/cgroups.plugin/cgroup-name.sh	2022-08-13 11:26:37.379990796 +0200
+--- a/collectors/cgroups.plugin/cgroup-name.sh	2022-11-30 13:36:48.322052491 +0100
++++ b/collectors/cgroups.plugin/cgroup-name.sh	2022-12-02 19:09:02.006143400 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -20,8 +20,8 @@ diff -rup a/collectors/cgroups.plugin/cgroup-name.sh b/collectors/cgroups.plugin
  
  # netdata
 diff -rup a/collectors/cgroups.plugin/cgroup-network-helper.sh b/collectors/cgroups.plugin/cgroup-network-helper.sh
---- a/collectors/cgroups.plugin/cgroup-network-helper.sh	2022-08-10 20:45:57.737076153 +0200
-+++ b/collectors/cgroups.plugin/cgroup-network-helper.sh	2022-08-13 11:26:37.377990780 +0200
+--- a/collectors/cgroups.plugin/cgroup-network-helper.sh	2022-11-30 13:36:48.322052491 +0100
++++ b/collectors/cgroups.plugin/cgroup-network-helper.sh	2022-12-02 19:09:02.008143410 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -29,8 +29,8 @@ diff -rup a/collectors/cgroups.plugin/cgroup-network-helper.sh b/collectors/cgro
  
  # cgroup-network-helper.sh
 diff -rup a/collectors/charts.d.plugin/charts.d.dryrun-helper.sh b/collectors/charts.d.plugin/charts.d.dryrun-helper.sh
---- a/collectors/charts.d.plugin/charts.d.dryrun-helper.sh	2022-08-10 20:45:57.741076212 +0200
-+++ b/collectors/charts.d.plugin/charts.d.dryrun-helper.sh	2022-08-13 11:26:37.371990734 +0200
+--- a/collectors/charts.d.plugin/charts.d.dryrun-helper.sh	2022-11-30 13:36:48.322052491 +0100
++++ b/collectors/charts.d.plugin/charts.d.dryrun-helper.sh	2022-12-02 19:09:02.015143442 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -38,8 +38,8 @@ diff -rup a/collectors/charts.d.plugin/charts.d.dryrun-helper.sh b/collectors/ch
  
  # shellcheck disable=SC2181
 diff -rup a/collectors/charts.d.plugin/charts.d.plugin b/collectors/charts.d.plugin/charts.d.plugin
---- a/collectors/charts.d.plugin/charts.d.plugin	2022-08-10 20:47:05.009958905 +0200
-+++ b/collectors/charts.d.plugin/charts.d.plugin	2022-08-13 11:26:37.368990712 +0200
+--- a/collectors/charts.d.plugin/charts.d.plugin	2022-11-30 13:37:39.815580278 +0100
++++ b/collectors/charts.d.plugin/charts.d.plugin	2022-12-02 19:09:02.013143433 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -47,8 +47,8 @@ diff -rup a/collectors/charts.d.plugin/charts.d.plugin b/collectors/charts.d.plu
  
  # netdata
 diff -rup a/collectors/charts.d.plugin/charts.d.plugin.in b/collectors/charts.d.plugin/charts.d.plugin.in
---- a/collectors/charts.d.plugin/charts.d.plugin.in	2022-08-10 20:45:57.741076212 +0200
-+++ b/collectors/charts.d.plugin/charts.d.plugin.in	2022-08-13 11:26:37.373990750 +0200
+--- a/collectors/charts.d.plugin/charts.d.plugin.in	2022-11-30 13:36:48.322052491 +0100
++++ b/collectors/charts.d.plugin/charts.d.plugin.in	2022-12-02 19:09:02.010143419 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -56,8 +56,8 @@ diff -rup a/collectors/charts.d.plugin/charts.d.plugin.in b/collectors/charts.d.
  
  # netdata
 diff -rup a/collectors/fping.plugin/fping.plugin b/collectors/fping.plugin/fping.plugin
---- a/collectors/fping.plugin/fping.plugin	2022-08-10 20:47:05.249976209 +0200
-+++ b/collectors/fping.plugin/fping.plugin	2022-08-13 11:26:37.388990864 +0200
+--- a/collectors/fping.plugin/fping.plugin	2022-11-30 13:37:39.927583599 +0100
++++ b/collectors/fping.plugin/fping.plugin	2022-12-02 19:09:02.033143526 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -65,8 +65,8 @@ diff -rup a/collectors/fping.plugin/fping.plugin b/collectors/fping.plugin/fping
  
  # netdata
 diff -rup a/collectors/fping.plugin/fping.plugin.in b/collectors/fping.plugin/fping.plugin.in
---- a/collectors/fping.plugin/fping.plugin.in	2022-08-10 20:45:57.749076328 +0200
-+++ b/collectors/fping.plugin/fping.plugin.in	2022-08-13 11:26:37.390990880 +0200
+--- a/collectors/fping.plugin/fping.plugin.in	2022-11-30 13:36:48.330052728 +0100
++++ b/collectors/fping.plugin/fping.plugin.in	2022-12-02 19:09:02.031143516 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -74,8 +74,8 @@ diff -rup a/collectors/fping.plugin/fping.plugin.in b/collectors/fping.plugin/fp
  
  # netdata
 diff -rup a/collectors/ioping.plugin/ioping.plugin b/collectors/ioping.plugin/ioping.plugin
---- a/collectors/ioping.plugin/ioping.plugin	2022-08-10 20:47:05.301979959 +0200
-+++ b/collectors/ioping.plugin/ioping.plugin	2022-08-13 11:26:37.395990918 +0200
+--- a/collectors/ioping.plugin/ioping.plugin	2022-11-30 13:37:39.955584429 +0100
++++ b/collectors/ioping.plugin/ioping.plugin	2022-12-02 19:09:02.021143470 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -83,8 +83,8 @@ diff -rup a/collectors/ioping.plugin/ioping.plugin b/collectors/ioping.plugin/io
  
  # netdata
 diff -rup a/collectors/ioping.plugin/ioping.plugin.in b/collectors/ioping.plugin/ioping.plugin.in
---- a/collectors/ioping.plugin/ioping.plugin.in	2022-08-10 20:45:57.749076328 +0200
-+++ b/collectors/ioping.plugin/ioping.plugin.in	2022-08-13 11:26:37.393990903 +0200
+--- a/collectors/ioping.plugin/ioping.plugin.in	2022-11-30 13:36:48.330052728 +0100
++++ b/collectors/ioping.plugin/ioping.plugin.in	2022-12-02 19:09:02.024143484 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -92,8 +92,8 @@ diff -rup a/collectors/ioping.plugin/ioping.plugin.in b/collectors/ioping.plugin
  
  # netdata
 diff -rup a/collectors/python.d.plugin/python.d.plugin b/collectors/python.d.plugin/python.d.plugin
---- a/collectors/python.d.plugin/python.d.plugin	2022-08-10 20:47:05.638004185 +0200
-+++ b/collectors/python.d.plugin/python.d.plugin	2022-08-13 11:26:37.384990834 +0200
+--- a/collectors/python.d.plugin/python.d.plugin	2022-11-30 13:37:40.139589884 +0100
++++ b/collectors/python.d.plugin/python.d.plugin	2022-12-02 19:09:02.019143461 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -101,8 +101,8 @@ diff -rup a/collectors/python.d.plugin/python.d.plugin b/collectors/python.d.plu
  pybinary=$(which python3 || which python || which python2)
  filtered=()
 diff -rup a/collectors/python.d.plugin/python.d.plugin.in b/collectors/python.d.plugin/python.d.plugin.in
---- a/collectors/python.d.plugin/python.d.plugin.in	2022-08-10 20:45:57.773076676 +0200
-+++ b/collectors/python.d.plugin/python.d.plugin.in	2022-08-13 11:26:37.382990819 +0200
+--- a/collectors/python.d.plugin/python.d.plugin.in	2022-11-30 13:36:48.346053202 +0100
++++ b/collectors/python.d.plugin/python.d.plugin.in	2022-12-02 19:09:02.017143451 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -110,8 +110,8 @@ diff -rup a/collectors/python.d.plugin/python.d.plugin.in b/collectors/python.d.
  pybinary=$(which python3 || which python || which python2)
  filtered=()
 diff -rup a/collectors/python.d.plugin/python_modules/third_party/boinc_client.py b/collectors/python.d.plugin/python_modules/third_party/boinc_client.py
---- a/collectors/python.d.plugin/python_modules/third_party/boinc_client.py	2022-08-10 20:45:57.777076734 +0200
-+++ b/collectors/python.d.plugin/python_modules/third_party/boinc_client.py	2022-08-13 11:26:37.553992127 +0200
+--- a/collectors/python.d.plugin/python_modules/third_party/boinc_client.py	2022-11-30 13:36:48.346053202 +0100
++++ b/collectors/python.d.plugin/python_modules/third_party/boinc_client.py	2022-12-02 19:09:02.179144203 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env python
 +#
@@ -119,8 +119,8 @@ diff -rup a/collectors/python.d.plugin/python_modules/third_party/boinc_client.p
  #
  # client.py - Somewhat higher-level GUI_RPC API for BOINC core client
 diff -rup a/collectors/tc.plugin/tc-qos-helper.sh b/collectors/tc.plugin/tc-qos-helper.sh
---- a/collectors/tc.plugin/tc-qos-helper.sh	2022-08-10 20:47:06.390058404 +0200
-+++ b/collectors/tc.plugin/tc-qos-helper.sh	2022-08-13 11:26:37.365990688 +0200
+--- a/collectors/tc.plugin/tc-qos-helper.sh	2022-11-30 13:37:40.511600912 +0100
++++ b/collectors/tc.plugin/tc-qos-helper.sh	2022-12-02 19:09:02.027143498 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -128,8 +128,8 @@ diff -rup a/collectors/tc.plugin/tc-qos-helper.sh b/collectors/tc.plugin/tc-qos-
  # netdata
  # real-time performance and health monitoring, done right!
 diff -rup a/collectors/tc.plugin/tc-qos-helper.sh.in b/collectors/tc.plugin/tc-qos-helper.sh.in
---- a/collectors/tc.plugin/tc-qos-helper.sh.in	2022-08-10 20:45:57.785076851 +0200
-+++ b/collectors/tc.plugin/tc-qos-helper.sh.in	2022-08-13 11:26:37.363990673 +0200
+--- a/collectors/tc.plugin/tc-qos-helper.sh.in	2022-11-30 13:36:48.354053440 +0100
++++ b/collectors/tc.plugin/tc-qos-helper.sh.in	2022-12-02 19:09:02.029143507 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -137,8 +137,8 @@ diff -rup a/collectors/tc.plugin/tc-qos-helper.sh.in b/collectors/tc.plugin/tc-q
  # netdata
  # real-time performance and health monitoring, done right!
 diff -rup a/contrib/debian/install_go.sh b/contrib/debian/install_go.sh
---- a/contrib/debian/install_go.sh	2022-08-10 20:45:57.785076851 +0200
-+++ b/contrib/debian/install_go.sh	2022-08-13 11:26:37.400990956 +0200
+--- a/contrib/debian/install_go.sh	2022-11-30 13:36:48.354053440 +0100
++++ b/contrib/debian/install_go.sh	2022-12-02 19:09:02.035143535 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -146,8 +146,8 @@ diff -rup a/contrib/debian/install_go.sh b/contrib/debian/install_go.sh
  GO_PACKAGE_VERSION="$1"
  LIB_DIR="$2"
 diff -rup a/contrib/rhel/build-netdata-rpm.sh b/contrib/rhel/build-netdata-rpm.sh
---- a/contrib/rhel/build-netdata-rpm.sh	2022-08-10 20:45:57.785076851 +0200
-+++ b/contrib/rhel/build-netdata-rpm.sh	2022-08-13 11:26:37.398990941 +0200
+--- a/contrib/rhel/build-netdata-rpm.sh	2022-11-30 13:36:48.354053440 +0100
++++ b/contrib/rhel/build-netdata-rpm.sh	2022-12-02 19:09:02.037143544 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -155,8 +155,8 @@ diff -rup a/contrib/rhel/build-netdata-rpm.sh b/contrib/rhel/build-netdata-rpm.s
  # docker run -it --rm centos:6.9 /bin/sh
  # yum -y install rpm-build redhat-rpm-config yum-utils autoconf automake curl gcc git libmnl-devel libuuid-devel make pkgconfig zlib-devel
 diff -rup a/coverity-scan.sh b/coverity-scan.sh
---- a/coverity-scan.sh	2022-08-10 20:45:57.785076851 +0200
-+++ b/coverity-scan.sh	2022-08-13 11:26:37.403990979 +0200
+--- a/coverity-scan.sh	2022-11-30 13:36:48.354053440 +0100
++++ b/coverity-scan.sh	2022-12-02 19:09:02.039143553 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -164,8 +164,8 @@ diff -rup a/coverity-scan.sh b/coverity-scan.sh
  # Coverity scan script
  #
 diff -rup a/cppcheck.sh b/cppcheck.sh
---- a/cppcheck.sh	2022-08-10 20:45:57.785076851 +0200
-+++ b/cppcheck.sh	2022-08-13 11:26:37.405990995 +0200
+--- a/cppcheck.sh	2022-11-30 13:36:48.354053440 +0100
++++ b/cppcheck.sh	2022-12-02 19:09:02.041143563 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -173,8 +173,8 @@ diff -rup a/cppcheck.sh b/cppcheck.sh
  # echo >>/tmp/cppcheck.log "cppcheck ${*}"
  
 diff -rup a/daemon/anonymous-statistics.sh b/daemon/anonymous-statistics.sh
---- a/daemon/anonymous-statistics.sh	2022-08-10 20:47:06.446062442 +0200
-+++ b/daemon/anonymous-statistics.sh	2022-08-13 11:26:37.446991308 +0200
+--- a/daemon/anonymous-statistics.sh	2022-11-30 13:37:40.539601742 +0100
++++ b/daemon/anonymous-statistics.sh	2022-12-02 19:09:02.076143725 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
@@ -182,8 +182,8 @@ diff -rup a/daemon/anonymous-statistics.sh b/daemon/anonymous-statistics.sh
  # Valid actions:
  
 diff -rup a/daemon/anonymous-statistics.sh.in b/daemon/anonymous-statistics.sh.in
---- a/daemon/anonymous-statistics.sh.in	2022-08-10 20:45:57.785076851 +0200
-+++ b/daemon/anonymous-statistics.sh.in	2022-08-13 11:26:37.443991285 +0200
+--- a/daemon/anonymous-statistics.sh.in	2022-11-30 13:36:48.358053558 +0100
++++ b/daemon/anonymous-statistics.sh.in	2022-12-02 19:09:02.073143711 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
@@ -191,8 +191,8 @@ diff -rup a/daemon/anonymous-statistics.sh.in b/daemon/anonymous-statistics.sh.i
  # Valid actions:
  
 diff -rup a/daemon/get-kubernetes-labels.sh b/daemon/get-kubernetes-labels.sh
---- a/daemon/get-kubernetes-labels.sh	2022-08-10 20:47:06.450062731 +0200
-+++ b/daemon/get-kubernetes-labels.sh	2022-08-13 11:26:37.411991040 +0200
+--- a/daemon/get-kubernetes-labels.sh	2022-11-30 13:37:40.543601861 +0100
++++ b/daemon/get-kubernetes-labels.sh	2022-12-02 19:09:02.043143572 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -200,8 +200,8 @@ diff -rup a/daemon/get-kubernetes-labels.sh b/daemon/get-kubernetes-labels.sh
  
  # Checks if netdata is running in a kubernetes pod and fetches:
 diff -rup a/daemon/get-kubernetes-labels.sh.in b/daemon/get-kubernetes-labels.sh.in
---- a/daemon/get-kubernetes-labels.sh.in	2022-08-10 20:45:57.789076909 +0200
-+++ b/daemon/get-kubernetes-labels.sh.in	2022-08-13 11:26:37.408991018 +0200
+--- a/daemon/get-kubernetes-labels.sh.in	2022-11-30 13:36:48.358053558 +0100
++++ b/daemon/get-kubernetes-labels.sh.in	2022-12-02 19:09:02.045143581 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -209,8 +209,8 @@ diff -rup a/daemon/get-kubernetes-labels.sh.in b/daemon/get-kubernetes-labels.sh
  
  # Checks if netdata is running in a kubernetes pod and fetches:
 diff -rup a/daemon/system-info.sh b/daemon/system-info.sh
---- a/daemon/system-info.sh	2022-08-10 20:45:57.789076909 +0200
-+++ b/daemon/system-info.sh	2022-08-13 11:26:37.441991270 +0200
+--- a/daemon/system-info.sh	2022-11-30 13:36:48.358053558 +0100
++++ b/daemon/system-info.sh	2022-12-02 19:09:02.071143702 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
@@ -218,8 +218,8 @@ diff -rup a/daemon/system-info.sh b/daemon/system-info.sh
  # -------------------------------------------------------------------------------------------------
  # detect the kernel
 diff -rup a/diagrams/build.sh b/diagrams/build.sh
---- a/diagrams/build.sh	2022-08-10 20:45:57.849077780 +0200
-+++ b/diagrams/build.sh	2022-08-13 11:26:37.414991064 +0200
+--- a/diagrams/build.sh	2022-11-30 13:36:48.398054744 +0100
++++ b/diagrams/build.sh	2022-12-02 19:09:02.047143591 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -227,8 +227,8 @@ diff -rup a/diagrams/build.sh b/diagrams/build.sh
  
  path=$(dirname "$0")
 diff -rup a/exporting/nc-exporting.sh b/exporting/nc-exporting.sh
---- a/exporting/nc-exporting.sh	2022-08-10 20:45:57.865078012 +0200
-+++ b/exporting/nc-exporting.sh	2022-08-13 11:26:37.416991079 +0200
+--- a/exporting/nc-exporting.sh	2022-11-30 13:36:48.410055100 +0100
++++ b/exporting/nc-exporting.sh	2022-12-02 19:09:02.049143600 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -236,8 +236,8 @@ diff -rup a/exporting/nc-exporting.sh b/exporting/nc-exporting.sh
  # SPDX-License-Identifier: GPL-3.0-or-later
  
 diff -rup a/health/notifications/alarm-email.sh b/health/notifications/alarm-email.sh
---- a/health/notifications/alarm-email.sh	2022-08-10 20:45:57.869078071 +0200
-+++ b/health/notifications/alarm-email.sh	2022-08-13 11:26:37.418991094 +0200
+--- a/health/notifications/alarm-email.sh	2022-11-30 13:36:48.414055219 +0100
++++ b/health/notifications/alarm-email.sh	2022-12-02 19:09:02.059143646 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -245,8 +245,8 @@ diff -rup a/health/notifications/alarm-email.sh b/health/notifications/alarm-ema
  
  # OBSOLETE - REPLACED WITH
 diff -rup a/health/notifications/alarm-notify.sh b/health/notifications/alarm-notify.sh
---- a/health/notifications/alarm-notify.sh	2022-08-10 20:47:07.246120123 +0200
-+++ b/health/notifications/alarm-notify.sh	2022-08-13 11:26:37.422991125 +0200
+--- a/health/notifications/alarm-notify.sh	2022-11-30 13:37:40.939613600 +0100
++++ b/health/notifications/alarm-notify.sh	2022-12-02 19:09:02.055143628 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -254,8 +254,8 @@ diff -rup a/health/notifications/alarm-notify.sh b/health/notifications/alarm-no
  
  # netdata
 diff -rup a/health/notifications/alarm-notify.sh.in b/health/notifications/alarm-notify.sh.in
---- a/health/notifications/alarm-notify.sh.in	2022-08-10 20:45:57.873078129 +0200
-+++ b/health/notifications/alarm-notify.sh.in	2022-08-13 11:26:37.425991148 +0200
+--- a/health/notifications/alarm-notify.sh.in	2022-11-30 13:36:48.414055219 +0100
++++ b/health/notifications/alarm-notify.sh.in	2022-12-02 19:09:02.052143614 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -263,35 +263,35 @@ diff -rup a/health/notifications/alarm-notify.sh.in b/health/notifications/alarm
  
  # netdata
 diff -rup a/health/notifications/alarm-test.sh b/health/notifications/alarm-test.sh
---- a/health/notifications/alarm-test.sh	2022-08-10 20:45:57.873078129 +0200
-+++ b/health/notifications/alarm-test.sh	2022-08-13 11:26:37.427991163 +0200
+--- a/health/notifications/alarm-test.sh	2022-11-30 13:36:48.414055219 +0100
++++ b/health/notifications/alarm-test.sh	2022-12-02 19:09:02.057143637 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
  
  # netdata
  # real-time performance and health monitoring, done right!
-diff -rup a/ml/kmeans/dlib/dlib/external/pybind11/tools/mkdoc.py b/ml/kmeans/dlib/dlib/external/pybind11/tools/mkdoc.py
---- a/ml/kmeans/dlib/dlib/external/pybind11/tools/mkdoc.py	2022-08-10 20:46:21.094821055 +0200
-+++ b/ml/kmeans/dlib/dlib/external/pybind11/tools/mkdoc.py	2022-08-13 11:26:37.556992150 +0200
+diff -rup a/ml/dlib/dlib/external/pybind11/tools/mkdoc.py b/ml/dlib/dlib/external/pybind11/tools/mkdoc.py
+--- a/ml/dlib/dlib/external/pybind11/tools/mkdoc.py	2022-11-30 13:36:56.678300242 +0100
++++ b/ml/dlib/dlib/external/pybind11/tools/mkdoc.py	2022-12-02 19:09:02.182144217 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env python3
 +#!/usr/bin/python33
  #
  #  Syntax: mkdoc.py [-I<path> ..] [.. a list of header files ..]
  #
-diff -rup a/ml/kmeans/dlib/dlib/travis/build-and-test.sh b/ml/kmeans/dlib/dlib/travis/build-and-test.sh
---- a/ml/kmeans/dlib/dlib/travis/build-and-test.sh	2022-08-10 20:46:21.198828478 +0200
-+++ b/ml/kmeans/dlib/dlib/travis/build-and-test.sh	2022-08-13 11:26:37.430991186 +0200
+diff -rup a/ml/dlib/dlib/travis/build-and-test.sh b/ml/dlib/dlib/travis/build-and-test.sh
+--- a/ml/dlib/dlib/travis/build-and-test.sh	2022-11-30 13:36:56.750302376 +0100
++++ b/ml/dlib/dlib/travis/build-and-test.sh	2022-12-02 19:09:02.061143656 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
  # Exit if anything fails.
  set -eux
  
-diff -rup a/ml/kmeans/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py b/ml/kmeans/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py
---- a/ml/kmeans/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py	2022-08-10 20:46:21.270833617 +0200
-+++ b/ml/kmeans/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py	2022-08-13 11:26:37.559992173 +0200
+diff -rup a/ml/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py b/ml/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py
+--- a/ml/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py	2022-11-30 13:36:56.798303799 +0100
++++ b/ml/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model_with_caffe_example.py	2022-12-02 19:09:02.185144231 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env python
 +#!/usr/bin/python3
@@ -299,8 +299,8 @@ diff -rup a/ml/kmeans/dlib/tools/convert_dlib_nets_to_caffe/running_a_dlib_model
  # This script takes the dlib lenet model trained by the
  # examples/dnn_introduction_ex.cpp example program and runs it using caffe. 
 diff -rup a/packaging/check-kernel-config.sh b/packaging/check-kernel-config.sh
---- a/packaging/check-kernel-config.sh	2022-08-10 20:45:57.897078477 +0200
-+++ b/packaging/check-kernel-config.sh	2022-08-13 11:26:37.432991201 +0200
+--- a/packaging/check-kernel-config.sh	2022-11-30 13:36:48.434055812 +0100
++++ b/packaging/check-kernel-config.sh	2022-12-02 19:09:02.063143665 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -308,8 +308,8 @@ diff -rup a/packaging/check-kernel-config.sh b/packaging/check-kernel-config.sh
  get_kernel_version() {
    r="$(uname -r | cut -f 1 -d '-')"
 diff -rup a/system/edit-config b/system/edit-config
---- a/system/edit-config	2022-08-10 20:47:04.681935256 +0200
-+++ b/system/edit-config	2022-08-13 11:26:37.448991324 +0200
+--- a/system/edit-config	2022-11-30 13:37:39.643575179 +0100
++++ b/system/edit-config	2022-12-02 19:09:02.080143744 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
@@ -317,17 +317,26 @@ diff -rup a/system/edit-config b/system/edit-config
  [ -f /etc/profile ] && . /etc/profile
  
 diff -rup a/system/edit-config.in b/system/edit-config.in
---- a/system/edit-config.in	2022-08-10 20:45:57.905078593 +0200
-+++ b/system/edit-config.in	2022-08-13 11:26:37.450991339 +0200
+--- a/system/edit-config.in	2022-11-30 13:36:48.442056049 +0100
++++ b/system/edit-config.in	2022-12-02 19:09:02.082143753 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env sh
 +#!/usr/bin/sh
  
  [ -f /etc/profile ] && . /etc/profile
  
+diff -rup a/system/install-service.sh.in b/system/install-service.sh.in
+--- a/system/install-service.sh.in	2022-11-30 13:36:48.442056049 +0100
++++ b/system/install-service.sh.in	2022-12-02 19:09:02.078143735 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env sh
++#!/usr/bin/sh
+ 
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ 
 diff -rup a/system/netdata-lsb.in b/system/netdata-lsb.in
---- a/system/netdata-lsb.in	2022-08-10 20:45:57.905078593 +0200
-+++ b/system/netdata-lsb.in	2022-08-13 11:26:37.434991216 +0200
+--- a/system/netdata-lsb.in	2022-11-30 13:36:48.442056049 +0100
++++ b/system/netdata-lsb.in	2022-12-02 19:09:02.065143674 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -335,8 +344,8 @@ diff -rup a/system/netdata-lsb.in b/system/netdata-lsb.in
  # Netdata LSB start script
  #
 diff -rup a/tests/health_mgmtapi/health-cmdapi-test.sh b/tests/health_mgmtapi/health-cmdapi-test.sh
---- a/tests/health_mgmtapi/health-cmdapi-test.sh	2022-08-10 20:47:04.753940447 +0200
-+++ b/tests/health_mgmtapi/health-cmdapi-test.sh	2022-08-13 11:26:37.436991232 +0200
+--- a/tests/health_mgmtapi/health-cmdapi-test.sh	2022-11-30 13:37:39.683576365 +0100
++++ b/tests/health_mgmtapi/health-cmdapi-test.sh	2022-12-02 19:09:02.069143693 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
@@ -344,8 +353,8 @@ diff -rup a/tests/health_mgmtapi/health-cmdapi-test.sh b/tests/health_mgmtapi/he
  
  NETDATA_VARLIB_DIR="/var/lib/netdata"
 diff -rup a/tests/health_mgmtapi/health-cmdapi-test.sh.in b/tests/health_mgmtapi/health-cmdapi-test.sh.in
---- a/tests/health_mgmtapi/health-cmdapi-test.sh.in	2022-08-10 20:45:57.909078651 +0200
-+++ b/tests/health_mgmtapi/health-cmdapi-test.sh.in	2022-08-13 11:26:37.439991255 +0200
+--- a/tests/health_mgmtapi/health-cmdapi-test.sh.in	2022-11-30 13:36:48.442056049 +0100
++++ b/tests/health_mgmtapi/health-cmdapi-test.sh.in	2022-12-02 19:09:02.067143683 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
 +#!/usr/bin/bash
