@@ -89,7 +89,7 @@ install_go() {
 		# Install files
 		#tar -xf "${tmp}/config.tar.gz" -C "${NETDATA_CONF_STOCK}/conf.d/"
 		tar xf "${tmp}/${GO_PACKAGE_BASENAME}"
-		install -m 0750 -p "${GO_PACKAGE_BASENAME/\.tar\.gz/}" ${LIBEXEC_PATH}/plugins.d/go.d.plugin
+		install -m 0750 -g netdata -p "${GO_PACKAGE_BASENAME/\.tar\.gz/}" ${LIBEXEC_PATH}/plugins.d/go.d.plugin
 		setcap 'cap_net_admin=eip cap_net_raw=eip' ${LIBEXEC_PATH}/plugins.d/go.d.plugin
 		rm -rf "${tmp}"
 	fi

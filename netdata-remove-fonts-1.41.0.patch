@@ -1,6 +1,6 @@
-diff -rup a/web/gui/dashboard/Makefile.am b/web/gui/dashboard/Makefile.am
---- a/web/gui/dashboard/Makefile.am	2023-02-06 15:18:31.201561714 +0100
-+++ b/web/gui/dashboard/Makefile.am	2023-02-07 08:59:30.617627390 +0100
+diff -rup a/web/gui/v1/Makefile.am b/web/gui/v1/Makefile.am
+--- a/web/gui/v1/Makefile.am	2023-02-06 15:18:31.201561714 +0100
++++ b/web/gui/v1/Makefile.am	2023-02-07 08:59:30.617627390 +0100
 @@ -171,36 +171,3 @@ dist_webstaticjs_DATA = \
      $(srcdir)/static/js/runtime-main.08abed8f.js \
      $(srcdir)/static/js/runtime-main.08abed8f.js.map \
