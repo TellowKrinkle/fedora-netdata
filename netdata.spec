@@ -13,8 +13,10 @@ ExcludeArch: s390x
 # Because cups is too old in el7
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %bcond_with cups
+%bcond_with log2journal
 %else
 %bcond_without cups
+%bcond_without log2journal
 %endif
 
 # Because protobuf is too old in el7
@@ -366,7 +368,9 @@ echo "Netdata go plugin can be easily installed with %{_sbindir}/netdata-install
 %{_sbindir}/%{name}
 %{_sbindir}/%{name}-claim.sh
 %{_sbindir}/%{name}cli
+%if %{with log2journal}
 %{_sbindir}/log2journal
+%endif
 %{_sbindir}/systemd-cat-native
 %{_libexecdir}/%{name}/*
 %{_unitdir}/%{name}.service
