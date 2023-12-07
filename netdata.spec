@@ -42,7 +42,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.43.2
+%global upver        1.44.0
 #global rcver        rc0
 
 # Last python 2 support (el7 only)
@@ -51,7 +51,7 @@ ExcludeArch: s390x
 %global judy_ver 1.0.5-netdata2
 
 # 
-%global plugin_go_ver 0.56.3
+%global plugin_go_ver 0.57.2
 
 %global netdata_conf_stock %{_prefix}/lib/%{name}
 
@@ -366,6 +366,8 @@ echo "Netdata go plugin can be easily installed with %{_sbindir}/netdata-install
 %{_sbindir}/%{name}
 %{_sbindir}/%{name}-claim.sh
 %{_sbindir}/%{name}cli
+%{_sbindir}/log2journal
+%{_sbindir}/systemd-cat-native
 %{_libexecdir}/%{name}/*
 %{_unitdir}/%{name}.service
 %{_tmpfilesdir}/%{name}.conf
@@ -416,6 +418,9 @@ echo "Netdata go plugin can be easily installed with %{_sbindir}/netdata-install
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Thu Dec 07 2023 Didier Fabert <didier.fabert@gmail.com> 1.44.0-1
+- Update from upstream
+
 * Wed Nov 01 2023 Didier Fabert <didier.fabert@gmail.com> 1.43.2-1
 - Update from upstream
 
