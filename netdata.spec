@@ -385,7 +385,6 @@ sed -i -e '/stock config directory/ s;/etc/netdata/conf.d;/usr/lib/netdata/conf.
 sed -i -e '/stock health configuration directory/ s;/etc/netdata/conf.d/health.d;/usr/lib/netdata/conf.d/health.d;' /etc/netdata/netdata.conf ||:
 %systemd_post %{name}.service
 echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
-echo "Netdata go plugin is now embedded"
 
 %preun
 %systemd_preun %{name}.service
