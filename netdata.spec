@@ -121,7 +121,9 @@ BuildRequires:  openssl-devel
 BuildRequires:  libpfm-devel
 BuildRequires:  libyaml-devel
 BuildRequires:  ninja-build
+%if %{with plugin_go}
 BuildRequires:  golang >= 1.21
+%endif
 BuildRequires:  systemd-devel
 
 # Prometheus
@@ -323,6 +325,9 @@ find %{buildroot} -name '.keep' -delete
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_tmpfilesdir}
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
+%if 0%{?rhel} && 0%{?rhel} <= 8
+%global _vpath_builddir .
+%endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
 install -Dp -m 0644 %{_vpath_builddir}/system/systemd/netdata.service.v235 %{buildroot}%{_unitdir}/%{name}.service
 %else
