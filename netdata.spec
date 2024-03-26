@@ -35,7 +35,7 @@ ExcludeArch: s390x
 
 # Only on fedora
 %if 0%{?fedora}
-%ifarch x86_64
+%ifarch x86_64 aarch64
 %bcond_without xenstat
 %else
 %bcond_with xenstat
