@@ -64,7 +64,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.45.0
+%global upver        1.45.1
 #global rcver        rc0
 
 # Last python 2 support (el7 only)
@@ -450,6 +450,9 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Wed Mar 27 2024 Didier Fabert <didier.fabert@gmail.com> 1.45.1-1
+- Update from upstream
+
 * Thu Mar 21 2024 Didier Fabert <didier.fabert@gmail.com> 1.45.0-1
 - Update from upstream
 
