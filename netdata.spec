@@ -64,7 +64,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.45.2
+%global upver        1.45.3
 #global rcver        rc0
 
 # Last python 2 support (el7 only)
@@ -410,6 +410,9 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/cgroup-network-helper.sh
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/perf.plugin
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/slabinfo.plugin
+%if %{with plugin_go}
+%caps(cap_net_admin=eip cap_net_raw=eip) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/go.d.plugin
+%endif
 %if %{with cups}
 %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/cups.plugin
 %endif
