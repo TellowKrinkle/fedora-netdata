@@ -36,9 +36,9 @@ do
   echo ${script}
   if [ "$(basename ${script})" == "boinc_client.py" ]
   then
-    sed -i -e '1s^!/usr/bin/env python^^' ${script}
+    sed -i -e '1s^!/usr/bin/env python$^^' ${script}
   else
-    sed -i -e '1s^env python^python3^' ${script}
+    sed -i -e '1s^env python$^python3^' ${script}
   fi
 done
 popd

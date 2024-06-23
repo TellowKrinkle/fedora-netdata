@@ -40,15 +40,16 @@ ExcludeArch: s390x
 %else
 %bcond_with xenstat
 %endif
-%bcond_without plugin_go
+# %%bcond_without plugin_go
 %else
 %bcond_with xenstat
-%bcond_with plugin_go
+# %%bcond_with plugin_go
 %endif
 
 %bcond_without ml
 %bcond_without exporter_mongodb
 %bcond_with ebpf
+%bcond_with plugin_go
 
 %if 0%{?rhel} && 0%{?rhel} <= 7
 # This is temporary and should eventually be resolved. This bypasses
@@ -64,7 +65,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.45.6
+%global upver        1.46.1
 #global rcver        rc0
 
 # Last python 2 support (el7 only)
@@ -86,15 +87,15 @@ Source1:        netdata.tmpfiles.conf
 Source3:        netdata.conf
 Source4:        netdata.profile
 Source5:        README-packager.md
-Source20:       go.d.plugin-vendor-%{upver}%{?rcver:-%{rcver}}.tar.xz
+#Source20:       go.d.plugin-vendor-%%{upver}%%{?rcver:-%%{rcver}}.tar.xz
 # Only for el7
 Source10:       https://github.com/protocolbuffers/protobuf/releases/download/v%{protobuf_cpp_ver}/protobuf-cpp-%{protobuf_cpp_ver}.tar.gz
 # Only for el8
 Source11:       https://github.com/netdata/libjudy/archive/v%{judy_ver}/libjudy-%{judy_ver}.tar.gz
-Patch0:         netdata-fix-shebang-1.45.0.patch
+Patch0:         netdata-fix-shebang-1.46.0.patch
 %if 0%{?fedora}
 # Remove embedded font
-Patch10:        netdata-remove-fonts-1.45.0.patch
+Patch10:        netdata-remove-fonts-1.46.0.patch
 %endif
 
 BuildRequires:  zlib-devel
@@ -238,6 +239,7 @@ tar -xf %{SOURCE20}
 popd
 %endif
 ### END go.d.plugin
+
 
 %build
 ### BEGIN netdata cloud
@@ -453,6 +455,13 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Fri Jun 21 2024 Didier Fabert <didier.fabert@gmail.com> 1.46.1-1
+- Update from upstream
+- Disable go plugin for all builds
+
+* Wed Jun 19 2024 Didier Fabert <didier.fabert@gmail.com> 1.46.0-1
+- Update from upstream
+
 * Thu Jun 06 2024 Didier Fabert <didier.fabert@gmail.com> 1.45.6-1
 - Update from upstream
 
