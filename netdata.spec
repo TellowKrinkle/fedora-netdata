@@ -65,7 +65,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.46.1
+%global upver        1.46.2
 #global rcver        rc0
 
 # Last python 2 support (el7 only)
@@ -455,6 +455,9 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Mon Jul 15 2024 Didier Fabert <didier.fabert@gmail.com> 1.46.2-1
+- Update from upstream
+
 * Fri Jun 21 2024 Didier Fabert <didier.fabert@gmail.com> 1.46.1-1
 - Update from upstream
 - Disable go plugin for all builds
