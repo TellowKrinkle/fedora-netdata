@@ -65,7 +65,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.46.2
+%global upver        1.46.3
 #global rcver        rc0
 
 # Last python 2 support (el7 only)
@@ -77,7 +77,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see license REDISTRIBUTED.md
 License:        GPL-3.0-or-later
@@ -455,6 +455,9 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Fri Jul 26 2024 Didier Fabert <didier.fabert@gmail.com> 1.46.3-1
+- Update from upstream
+
 * Thu Jul 18 2024 Fedora Release Engineering <releng@fedoraproject.org> - 1.46.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_41_Mass_Rebuild
 
