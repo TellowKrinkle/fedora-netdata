@@ -77,7 +77,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see license REDISTRIBUTED.md
 License:        GPL-3.0-or-later
@@ -211,7 +211,8 @@ Configuration files for netdata
 %package freeipmi
 Summary:        FreeIPMI plugin for netdata
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-License:        GPLv3
+# Automatically converted from old format: GPLv3 - review is highly recommended.
+License:        GPL-3.0-only
 
 %description freeipmi
 freeipmi plugin for netdata
@@ -455,6 +456,9 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
 %changelog
+* Mon Jul 29 2024 Miroslav Suchý <msuchy@redhat.com> - 1.46.3-2
+- convert license to SPDX
+
 * Fri Jul 26 2024 Didier Fabert <didier.fabert@gmail.com> 1.46.3-1
 - Update from upstream
 
