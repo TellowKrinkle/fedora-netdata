@@ -17,14 +17,14 @@ mv netdata-v${version} a
 
 pushd a/src/go/collectors/go.d.plugin/
 
-sed -i -e '/github.com\/ilyam8\/hashstructure v1.1.0 /s/h1.*$/h1:o3hpiGa1yergDO4AlUVBJGNvCEeaD+Ynu0OWYxee0iA=/' go.sum
+go env -w GOPROXY=https://proxy.golang.org,direct
 go mod vendor
 retval=$?
 if [ ${retval} -ne 0 ]
 then
   echo -e "\033[1;31mError: Cannot get all go modules. Vendor archive of sources will not be created !!!\033[0m"
 else
-  tar -cJf ../../../../../go.d.plugin-vendor-${version}.tar.xz vendor
+  tar -czf ../../../../../go.d.plugin-vendor-${version}.tar.gz vendor
 fi
 popd
 rm -rf a 

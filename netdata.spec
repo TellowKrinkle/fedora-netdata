@@ -40,16 +40,18 @@ ExcludeArch: s390x
 %else
 %bcond_with xenstat
 %endif
-# %%bcond_without plugin_go
 %else
 %bcond_with xenstat
-# %%bcond_with plugin_go
 %endif
 
 %bcond_without ml
 %bcond_without exporter_mongodb
 %bcond_with ebpf
+%if 0%{?fedora} && 0%{?fedora} >= 40
+%bcond_without plugin_go
+%else
 %bcond_with plugin_go
+%endif
 
 %if 0%{?rhel} && 0%{?rhel} <= 7
 # This is temporary and should eventually be resolved. This bypasses
@@ -77,17 +79,18 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see license REDISTRIBUTED.md
-License:        GPL-3.0-or-later
+License:        GPL-3.0
 URL:            http://my-netdata.io
 Source0:        https://github.com/netdata/netdata/releases/download/v%{upver}%{?rcver:-%{rcver}}/%{name}-v%{upver}%{?rcver:-%{rcver}}.tar.gz
 Source1:        netdata.tmpfiles.conf
 Source3:        netdata.conf
 Source4:        netdata.profile
 Source5:        README-packager.md
-#Source20:       go.d.plugin-vendor-%%{upver}%%{?rcver:-%%{rcver}}.tar.xz
+# Only for fedora 40+
+Source20:       go.d.plugin-vendor-%%{upver}%%{?rcver:-%%{rcver}}.tar.gz
 # Only for el7
 Source10:       https://github.com/protocolbuffers/protobuf/releases/download/v%{protobuf_cpp_ver}/protobuf-cpp-%{protobuf_cpp_ver}.tar.gz
 # Only for el8
@@ -148,8 +151,7 @@ BuildRequires:  pkgconfig(libmongoc-1.0)
 %endif
 
 %if %{with xenstat}
-BuildRequires:  pkgconfig(xenstat)
-BuildRequires:  pkgconfig(xenlight)
+BuildRequires:  xen-devel
 %endif
 %if %{with cups}
 BuildRequires:  cups-devel >= 1.7
@@ -193,6 +195,7 @@ happened, on your systems and applications.
 %package data
 BuildArch:      noarch
 Summary:        Data files for netdata
+License:        GPL-3.0
 Requires:       /usr/sbin/useradd
 Requires:       /usr/sbin/groupadd
 Requires:       /usr/bin/systemctl
@@ -203,6 +206,7 @@ Data files for netdata
 %package conf
 BuildArch:      noarch
 Summary:        Configuration files for netdata
+License:        GPL-3.0
 Requires:       logrotate
 
 %description conf
@@ -210,12 +214,19 @@ Configuration files for netdata
 
 %package freeipmi
 Summary:        FreeIPMI plugin for netdata
+License:        GPL-3.0
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-# Automatically converted from old format: GPLv3 - review is highly recommended.
-License:        GPL-3.0-only
 
 %description freeipmi
 freeipmi plugin for netdata
+
+%package go.d.plugin
+Summary:        Go plugin for netdata
+License:        GPL-3.0
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description go.d.plugin
+go plugin for netdata
 
 %prep
 %setup -qn %{name}-v%{upver}%{?rcver:-%{rcver}}
@@ -225,6 +236,7 @@ freeipmi plugin for netdata
 %patch -P10 -p1
 rm -rf src/web/gui/v1/fonts/
 %endif
+
 cp %{SOURCE5} .
 ### BEGIN netdata cloud
 %if %{with bundled_protobuf}
@@ -318,7 +330,7 @@ cp -a externaldeps/protobuf/protobuf-%{protobuf_cpp_ver}/src externaldeps/protob
     -DENABLE_EXPORTER_PROMETHEUS_REMOTE_WRITE=On \
     -DENABLE_BUNDLED_JSONC=Off \
     -DENABLE_BUNDLED_YAML=Off
-    
+
 %{cmake_build}
 
 %install
@@ -331,11 +343,7 @@ mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 %if 0%{?rhel} && 0%{?rhel} <= 8
 %global _vpath_builddir .
 %endif
-%if 0%{?rhel} && 0%{?rhel} <= 7
-install -Dp -m 0644 %{_vpath_builddir}/system/systemd/netdata.service.v235 %{buildroot}%{_unitdir}/%{name}.service
-%else
 install -Dp -m 0644 %{_vpath_builddir}/system/systemd/netdata.service %{buildroot}%{_unitdir}/%{name}.service
-%endif
 install -p -m 0644 %{SOURCE1} %{buildroot}%{_tmpfilesdir}/%{name}.conf
 install -Dp -m 0644 %{_vpath_builddir}/system/logrotate/netdata %{buildroot}%{_sysconfdir}/logrotate.d/netdata
 
@@ -344,12 +352,6 @@ mkdir -p %{buildroot}%{_localstatedir}/log/%{name}
 mkdir -p %{buildroot}%{_localstatedir}/cache/%{name}
 
 install -p -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/%{name}/
-# it's better to put stock config file in a noarch pkg (like systemd)
-# %%ifnarch i686
-# mkdir -p %{buildroot}%{netdata_conf_stock}/conf.d
-# mv %{buildroot}%{_libdir}/%{name}/conf.d/* %{buildroot}%{netdata_conf_stock}/conf.d/
-# sed -i -e '/NETDATA_STOCK_CONFIG_DIR/ s/lib64/lib/' %{buildroot}%{_sysconfdir}/%{name}/edit-config
-# %endif
 sed -i -e '/^script_dir/s;=.*;="\$\{NETDATA_USER_CONFIG_DIR:-%{_sysconfdir}/netdata\}";' \
     %{buildroot}%{_sysconfdir}/%{name}/edit-config
 
@@ -413,9 +415,6 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/cgroup-network-helper.sh
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/perf.plugin
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/slabinfo.plugin
-%if %{with plugin_go}
-%caps(cap_net_admin=eip cap_net_raw=eip) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/go.d.plugin
-%endif
 %if %{with cups}
 %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/cups.plugin
 %endif
@@ -455,7 +454,17 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 %license LICENSE REDISTRIBUTED.md
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
 
+%if %{with plugin_go}
+%files go.d.plugin
+%caps(cap_net_admin=eip cap_net_raw=eip) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/go.d.plugin
+%endif
+
+
 %changelog
+* Wed Aug 07 2024 Didier Fabert <didier.fabert@gmail.com> 1.46.3-3
+- Change BuildRequires from pkgconfig(libxenlight) and pkgconfig(libxenstat) to xen-devel package
+- Enable go plugin only for Fedora 40+
+
 * Mon Jul 29 2024 Miroslav Suchý <msuchy@redhat.com> - 1.46.3-2
 - convert license to SPDX
 
