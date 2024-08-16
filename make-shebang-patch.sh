@@ -1,9 +1,9 @@
 #!/bin/bash
 
-version=$1
 source='a'
 target='b'
 
+version=$(rpmspec -P netdata.spec | grep -i '^version' | awk -F ':' '{print $2}' | tr -d ' ')
 [ -z "${version}" ] && read -p 'version: ' version
 
 [ -f "v${version}.tar.gz" ] && tar -xzf v${version}.tar.gz

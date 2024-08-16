@@ -1,11 +1,12 @@
  #!/bin/bash
 
-version=$1
 source='a'
 
+version=$(rpmspec -P netdata.spec | grep -i '^version' | awk -F ':' '{print $2}' | tr -d ' ')
 [ -z "${version}" ] && read -p 'version: ' version
 
-rm -rf a b
+[ -d a ] && rm -rf a
+[ -d b ] && rm -rf b
 [ -f "v${version}.tar.gz" ] && tar -xzf v${version}.tar.gz
 [ -f "netdata-v${version}.tar.gz" ] && tar -xzf netdata-v${version}.tar.gz
 if [ ! -d "netdata-v${version}" ]
@@ -15,7 +16,7 @@ then
 fi
 mv netdata-v${version} a
 
-pushd a/src/go/collectors/go.d.plugin/
+pushd a/src/go/collectors/go.d.plugin 1>/dev/null 2>&1
 
 go env -w GOPROXY=https://proxy.golang.org,direct
 go mod vendor
@@ -26,6 +27,7 @@ then
 else
   tar -czf ../../../../../go.d.plugin-vendor-${version}.tar.gz vendor
 fi
-popd
-rm -rf a 
+popd 1>/dev/null 2>&1
+rm -rf a
+echo "Create go.d.plugin-vendor-${version}.tar.gz"
 exit ${retval}

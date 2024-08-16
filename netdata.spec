@@ -79,28 +79,32 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see license REDISTRIBUTED.md
-License:        GPL-3.0
+License:        GPL-3.0-or-later
 URL:            http://my-netdata.io
-Source0:        https://github.com/netdata/netdata/releases/download/v%{upver}%{?rcver:-%{rcver}}/%{name}-v%{upver}%{?rcver:-%{rcver}}.tar.gz
+#Source0:        https://github.com/netdata/netdata/releases/download/v%%{upver}%%{?rcver:-%%{rcver}}/%%{name}-v%%{upver}%%{?rcver:-%%{rcver}}.tar.gz
+# Use make-source.sh script to build tarball without closed source part
+Source0:        %{name}-%{upver}%{?rcver:-%{rcver}}.tar.gz
 Source1:        netdata.tmpfiles.conf
 Source3:        netdata.conf
 Source4:        netdata.profile
 Source5:        README-packager.md
 # Only for fedora 40+
+# Use create-go-vendor.sh script to build tarball with all go vendor parts
 Source20:       go.d.plugin-vendor-%%{upver}%%{?rcver:-%%{rcver}}.tar.gz
 # Only for el7
 Source10:       https://github.com/protocolbuffers/protobuf/releases/download/v%{protobuf_cpp_ver}/protobuf-cpp-%{protobuf_cpp_ver}.tar.gz
 # Only for el8
 Source11:       https://github.com/netdata/libjudy/archive/v%{judy_ver}/libjudy-%{judy_ver}.tar.gz
+# Use make-shebang-patch.sh script to build patch
 Patch0:         netdata-fix-shebang-1.46.0.patch
+Patch1:         netdata-remove-web-v2.patch
 %if 0%{?fedora}
 # Remove embedded font
 Patch10:        netdata-remove-fonts-1.46.0.patch
 %endif
-
 BuildRequires:  zlib-devel
 BuildRequires:  git
 BuildRequires:  cmake
@@ -195,7 +199,7 @@ happened, on your systems and applications.
 %package data
 BuildArch:      noarch
 Summary:        Data files for netdata
-License:        GPL-3.0
+License:        GPL-3.0-or-later
 Requires:       /usr/sbin/useradd
 Requires:       /usr/sbin/groupadd
 Requires:       /usr/bin/systemctl
@@ -206,7 +210,7 @@ Data files for netdata
 %package conf
 BuildArch:      noarch
 Summary:        Configuration files for netdata
-License:        GPL-3.0
+License:        GPL-3.0-or-later
 Requires:       logrotate
 
 %description conf
@@ -214,7 +218,7 @@ Configuration files for netdata
 
 %package freeipmi
 Summary:        FreeIPMI plugin for netdata
-License:        GPL-3.0
+License:        GPL-3.0-or-later
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description freeipmi
@@ -222,20 +226,26 @@ freeipmi plugin for netdata
 
 %package go.d.plugin
 Summary:        Go plugin for netdata
-License:        GPL-3.0
+License:        GPL-3.0-or-later
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description go.d.plugin
 go plugin for netdata
 
 %prep
-%setup -qn %{name}-v%{upver}%{?rcver:-%{rcver}}
+%setup -qn %{name}-%{upver}%{?rcver:-%{rcver}}
 %patch -P0 -p1
+%patch -P1 -p1
 %if 0%{?fedora}
 # Remove embedded font(added in requires)
 %patch -P10 -p1
 rm -rf src/web/gui/v1/fonts/
 %endif
+# Remove closed source parts if present
+if [ -d src/web/gui/v2 ] ; then
+    rm -rf src/web/gui/v2 src/web/gui/index.html
+    cp -a src/web/gui/v1/index.html src/web/gui/index.html
+fi
 
 cp %{SOURCE5} .
 ### BEGIN netdata cloud
@@ -456,11 +466,17 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 %if %{with plugin_go}
 %files go.d.plugin
+%doc README.md
+%license LICENSE REDISTRIBUTED.md
 %caps(cap_net_admin=eip cap_net_raw=eip) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/go.d.plugin
 %endif
 
 
 %changelog
+* Thu Aug 15 2024 Didier Fabert <didier.fabert@gmail.com> 1.46.3-4
+- Remove closed source parts from binary rpms
+  See https://bugzilla.redhat.com/show_bug.cgi?id=2304167
+
 * Wed Aug 07 2024 Didier Fabert <didier.fabert@gmail.com> 1.46.3-3
 - Change BuildRequires from pkgconfig(libxenlight) and pkgconfig(libxenstat) to xen-devel package
 - Enable go plugin only for Fedora 40+
