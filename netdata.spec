@@ -67,7 +67,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.46.3
+%global upver        1.47.0
 #global rcver        rc0
 
 # Last python 2 support (el7 only)
@@ -79,7 +79,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see license REDISTRIBUTED.md
 License:        GPL-3.0-or-later
@@ -99,7 +99,7 @@ Source10:       https://github.com/protocolbuffers/protobuf/releases/download/v%
 # Only for el8
 Source11:       https://github.com/netdata/libjudy/archive/v%{judy_ver}/libjudy-%{judy_ver}.tar.gz
 # Use make-shebang-patch.sh script to build patch
-Patch0:         netdata-fix-shebang-1.46.0.patch
+Patch0:         netdata-fix-shebang-1.47.0.patch
 Patch1:         netdata-remove-web-v2.patch
 %if 0%{?fedora}
 # Remove embedded font
@@ -257,7 +257,7 @@ tar -xzf %{SOURCE10} -C externaldeps/protobuf
 
 ### BEGIN go.d.plugin
 %if %{with plugin_go}
-pushd src/go/collectors/go.d.plugin/
+pushd src/go
 tar -xf %{SOURCE20}
 popd
 %endif
@@ -392,7 +392,8 @@ rm -rf %{buildroot}%{_prefix}/lib/netdata/system
 
 %pre data
 getent group netdata > /dev/null || groupadd -r netdata
-getent passwd netdata > /dev/null || useradd -r -g netdata -c "NetData User" -s /sbin/nologin -d /var/log/%{name} netdata
+getent passwd netdata > /dev/null || useradd -r -g netdata -G systemd-journal -c "NetData User" -s /sbin/nologin -d /var/log/%{name} netdata
+getent group systemd-journal | grep netdata > /dev/null || usermod -aG systemd-journal netdata
 
 %post
 sed -i -e '/web files group/ s/root/netdata/' /etc/netdata/netdata.conf ||:
@@ -473,6 +474,13 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 
 %changelog
+* Fri Aug 23 2024 Didier Fabert <didier.fabert@gmail.com> 1.47.0-1
+- Update from upstream
+
+* Thu Aug 22 2024 Didier Fabert <didier.fabert@gmail.com> 1.46.3-5
+- Fix journald access
+  See https://bugzilla.redhat.com/show_bug.cgi?id=2298058
+  
 * Thu Aug 15 2024 Didier Fabert <didier.fabert@gmail.com> 1.46.3-4
 - Remove closed source parts from binary rpms
   See https://bugzilla.redhat.com/show_bug.cgi?id=2304167
