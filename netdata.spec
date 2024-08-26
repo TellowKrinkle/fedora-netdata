@@ -3,27 +3,23 @@
 ExcludeArch: s390x
 %endif
 
-# Because libnetfilter_acct-devel is not available in el7
-%if 0%{?rhel} && 0%{?rhel} >= 7
-%bcond_with netfilteracct
-%else
-%bcond_without netfilteracct
-%endif
-
 # Because cups is too old in el7 and log2journal is not available
-%if 0%{?rhel} && 0%{?rhel} <= 7
+# Because libnetfilter_acct-devel is not available in el7
+# Because protobuf is too old in el7
+%if 0%{?rhel} && 0%{?rhel} == 7
 %bcond_with cups
 %bcond_with log2journal
+%bcond_without bundled_protobuf
 %else
 %bcond_without cups
 %bcond_without log2journal
+%bcond_with bundled_protobuf
 %endif
 
-# Because protobuf is too old in el7
-%if 0%{?rhel} && 0%{?rhel} == 7
-%bcond_without bundled_protobuf
+%if 0%{?rhel}
+%bcond_with netfilteracct
 %else
-%bcond_with bundled_protobuf
+%bcond_without netfilteracct
 %endif
 
 # Because judy-devel is not available in el8 for more than 1 year
@@ -385,7 +381,9 @@ install -p -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/profile.d/netdata.sh
 sed -i -e '/NETDATA_STOCK_CONFIG_DIR/s;@STOCK_CONFIG_DIR@;%{netdata_conf_stock};' %{buildroot}%{_sysconfdir}/profile.d/netdata.sh
     
 rm -f %{buildroot}%{_sysconfdir}/%{name}/netdata-updater.conf
+rm -f %{buildroot}%{_libexecdir}/%{name}/netdata-updater.sh
 rm -rf %{buildroot}%{_prefix}/lib/netdata/system
+rm -rf %{buildroot}%{_localstatedir}/lib/%{name}/config
 
 %check
 %ctest
@@ -393,7 +391,6 @@ rm -rf %{buildroot}%{_prefix}/lib/netdata/system
 %pre data
 getent group netdata > /dev/null || groupadd -r netdata
 getent passwd netdata > /dev/null || useradd -r -g netdata -G systemd-journal -c "NetData User" -s /sbin/nologin -d /var/log/%{name} netdata
-getent group systemd-journal | grep netdata > /dev/null || usermod -aG systemd-journal netdata
 
 %post
 sed -i -e '/web files group/ s/root/netdata/' /etc/netdata/netdata.conf ||:
@@ -418,21 +415,65 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 %{_sbindir}/log2journal
 %endif
 %{_sbindir}/systemd-cat-native
-%{_libexecdir}/%{name}/*
 %{_unitdir}/%{name}.service
 %{_tmpfilesdir}/%{name}.conf
-%caps(cap_dac_read_search,cap_sys_ptrace=ep) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/apps.plugin
+%dir %{_libexecdir}/%{name}
+%{_libexecdir}/%{name}/charts.d/
+%dir %{_libexecdir}/%{name}/plugins.d
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/install-service.sh
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/alarm-notify.sh
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/anonymous-statistics.sh
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/cgroup-name.sh
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/get-kubernetes-labels.sh
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/ioping.plugin
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/loopsleepms.sh.inc
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/system-info.sh
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/tc-qos-helper.sh
+
 %caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/cgroup-network
 %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/cgroup-network-helper.sh
-%caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/perf.plugin
-%caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/slabinfo.plugin
+
+%caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/local-listeners
+
+%caps(cap_sys_admin,cap_sys_ptrace,cap_dac_read_search=ep) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/network-viewer.plugin
+
 %if %{with cups}
 %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/cups.plugin
 %endif
+%if %{with netfilteracct}
+%attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/nfacct.plugin
+%endif
+
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/charts.d.plugin
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/charts.d.dryrun-helper.sh
+
+%caps(cap_dac_read_search,cap_sys_ptrace=ep) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/apps.plugin
+%if 0%{?rhel} >= 9 || 0%{?fedora} >= 36
+%caps(cap_perfmon=ep) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/perf.plugin
+%else
+%caps(cap_setuid=ep) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/perf.plugin
+%endif
+%caps(cap_dac_read_search=ep) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/slabinfo.plugin
+%caps(cap_dac_read_search=ep) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/systemd-journal.plugin
+%caps(cap_dac_read_search=ep) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/debugfs.plugin
+%if %{with xenstat}
+%caps(cap_setuid=ep) %attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/xenstat.plugin
+%endif
+
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/python.d.plugin
+%attr(0750,root,netdata) %{_libexecdir}/%{name}/python.d
+
 %exclude %{_libexecdir}/%{name}/edit-config
 %exclude %{_libexecdir}/%{name}/plugins.d/freeipmi.plugin
-%attr(0755, netdata, netdata) %{_localstatedir}/lib/%{name}
-%attr(0755, netdata, netdata) %dir %{_localstatedir}/cache/%{name}
+%if %{with plugin_go}
+%exclude %{_libexecdir}/%{name}/plugins.d/go.d.plugin
+%exclude %{_libexecdir}/%{name}/plugins.d/ndsudo
+%endif
+
+%attr(0770, netdata, netdata) %dir %{_localstatedir}/lib/%{name}
+%attr(0770,netdata,netdata) %dir %{_localstatedir}/lib/%{name}/registry
+%attr(0770,netdata,netdata) %dir %{_localstatedir}/lib/%{name}/cloud.d
+%attr(0770, netdata, netdata) %dir %{_localstatedir}/cache/%{name}
 %attr(0755, netdata, netdata) %dir %{_localstatedir}/log/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 
@@ -469,7 +510,8 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 %files go.d.plugin
 %doc README.md
 %license LICENSE REDISTRIBUTED.md
-%caps(cap_net_admin=eip cap_net_raw=eip) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/go.d.plugin
+%caps(cap_dac_read_search,cap_net_admin,cap_net_raw=eip) %attr(0750,root,netdata) %{_libexecdir}/%{name}/plugins.d/go.d.plugin
+%caps(cap_setuid=ep)%attr(4750,root,netdata) %{_libexecdir}/%{name}/plugins.d/ndsudo
 %endif
 
 
