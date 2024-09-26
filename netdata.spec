@@ -63,7 +63,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.47.1
+%global upver        1.47.2
 #global rcver        rc0
 
 # Last python 2 support (el7 only)
@@ -397,6 +397,7 @@ sed -i -e '/web files group/ s/root/netdata/' /etc/netdata/netdata.conf ||:
 sed -i -e '/stock config directory/ s;/etc/netdata/conf.d;/usr/lib/netdata/conf.d;' /etc/netdata/netdata.conf ||:
 sed -i -e '/stock health configuration directory/ s;/etc/netdata/conf.d/health.d;/usr/lib/netdata/conf.d/health.d;' /etc/netdata/netdata.conf ||:
 %systemd_post %{name}.service
+%tmpfiles_create %{name}.conf
 echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 %preun
@@ -474,7 +475,7 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 %attr(0770,netdata,netdata) %dir %{_localstatedir}/lib/%{name}/registry
 %attr(0770,netdata,netdata) %dir %{_localstatedir}/lib/%{name}/cloud.d
 %attr(0770, netdata, netdata) %dir %{_localstatedir}/cache/%{name}
-%attr(0755, netdata, netdata) %dir %{_localstatedir}/log/%{name}
+%attr(0750, netdata, netdata) %dir %{_localstatedir}/log/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 
 %files conf
@@ -516,6 +517,9 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 
 %changelog
+* Thu Sep 26 2024 Didier Fabert <didier.fabert@gmail.com> 1.47.2-1
+- Update from upstream
+
 * Tue Sep 10 2024 Didier Fabert <didier.fabert@gmail.com> 1.47.1-1
 - Update from upstream
 
