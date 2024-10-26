@@ -63,7 +63,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.47.4
+%global upver        1.47.5
 #global rcver        rc0
 
 # Last python 2 support (el7 only)
@@ -517,6 +517,9 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 
 %changelog
+* Thu Oct 24 2024 Didier Fabert <didier.fabert@gmail.com> 1.47.5-1
+- Update from upstream
+
 * Thu Oct 10 2024 Didier Fabert <didier.fabert@gmail.com> 1.47.4-1
 - Update from upstream
 
