@@ -3,18 +3,8 @@
 ExcludeArch: s390x
 %endif
 
-# Because cups is too old in el7 and log2journal is not available
-# Because libnetfilter_acct-devel is not available in el7
-# Because protobuf is too old in el7
-%if 0%{?rhel} && 0%{?rhel} == 7
-%bcond_with cups
-%bcond_with log2journal
-%bcond_without bundled_protobuf
-%else
 %bcond_without cups
 %bcond_without log2journal
-%bcond_with bundled_protobuf
-%endif
 
 %if 0%{?rhel}
 %bcond_with netfilteracct
@@ -49,25 +39,16 @@ ExcludeArch: s390x
 %bcond_with plugin_go
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} <= 7
-# This is temporary and should eventually be resolved. This bypasses
-# the default rhel __os_install_post which throws a python compile
-# error.
-%global __os_install_post %{nil}
-%endif
-
-# Workaroound for Missing build-id on go.d.plugin
+# Workaround for Missing build-id on go.d.plugin
 %global _missing_build_ids_terminate_build 0
 
 # We use some plugins which need suid
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        1.47.5
+%global upver        2.0.0
 #global rcver        rc0
 
-# Last python 2 support (el7 only)
-%global protobuf_cpp_ver 3.17.3
 # el8 only
 %global judy_ver 1.0.5-netdata2
 
@@ -80,26 +61,24 @@ Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see license REDISTRIBUTED.md
 License:        GPL-3.0-or-later
 URL:            http://my-netdata.io
-#Source0:        https://github.com/netdata/netdata/releases/download/v%%{upver}%%{?rcver:-%%{rcver}}/%%{name}-v%%{upver}%%{?rcver:-%%{rcver}}.tar.gz
+Source0:        https://github.com/netdata/netdata/releases/download/v%{upver}%{?rcver:-%{rcver}}/%{name}-v%{upver}%{?rcver:-%{rcver}}.tar.gz
 # Use make-source.sh script to build tarball without closed source part
-Source0:        %{name}-%{upver}%{?rcver:-%{rcver}}.tar.gz
+#Source0:        %%{name}-%%{upver}%%{?rcver:-%%{rcver}}.tar.gz
 Source1:        netdata.tmpfiles.conf
 Source3:        netdata.conf
 Source4:        netdata.profile
 Source5:        README-packager.md
-# Only for fedora 40+
-# Use create-go-vendor.sh script to build tarball with all go vendor parts
-Source20:       go.d.plugin-vendor-%%{upver}%%{?rcver:-%%{rcver}}.tar.gz
-# Only for el7
-Source10:       https://github.com/protocolbuffers/protobuf/releases/download/v%{protobuf_cpp_ver}/protobuf-cpp-%{protobuf_cpp_ver}.tar.gz
 # Only for el8
 Source11:       https://github.com/netdata/libjudy/archive/v%{judy_ver}/libjudy-%{judy_ver}.tar.gz
+# Only for fedora 40+
+# Use create-go-vendor.sh script to build tarball with all go vendor parts
+Source20:       go.d.plugin-vendor-%{upver}%{?rcver:-%{rcver}}.tar.gz
 # Use make-shebang-patch.sh script to build patch
-Patch0:         netdata-fix-shebang-1.47.0.patch
+Patch0:         netdata-fix-shebang-2.0.0.patch
 Patch1:         netdata-remove-web-v2.patch
 %if 0%{?fedora}
 # Remove embedded font
-Patch10:        netdata-remove-fonts-1.46.0.patch
+Patch10:        netdata-remove-fonts-2.0.0.patch
 %endif
 BuildRequires:  zlib-devel
 BuildRequires:  git
@@ -145,6 +124,7 @@ BuildRequires:  libcmocka-devel
 
 # ebpf
 #BuildRequires:  elfutils-libelf-devel
+
 # exporter mongodb
 %if %{with exporter_mongodb}
 BuildRequires:  pkgconfig(libmongoc-1.0)
@@ -229,7 +209,7 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 go plugin for netdata
 
 %prep
-%setup -qn %{name}-%{upver}%{?rcver:-%{rcver}}
+%setup -qn %{name}-v%{upver}%{?rcver:-%{rcver}}
 %patch -P0 -p1
 %patch -P1 -p1
 %if 0%{?fedora}
@@ -240,16 +220,9 @@ rm -rf src/web/gui/v1/fonts/
 # Remove closed source parts if present
 if [ -d src/web/gui/v2 ] ; then
     rm -rf src/web/gui/v2 src/web/gui/index.html
-    cp -a src/web/gui/v1/index.html src/web/gui/index.html
 fi
-
+cp -a src/web/gui/v1/index.html src/web/gui/index.html
 cp %{SOURCE5} .
-### BEGIN netdata cloud
-%if %{with bundled_protobuf}
-mkdir -p externaldeps/protobuf
-tar -xzf %{SOURCE10} -C externaldeps/protobuf
-%endif
-### END netdata cloud
 
 ### BEGIN go.d.plugin
 %if %{with plugin_go}
@@ -261,24 +234,13 @@ popd
 
 
 %build
-### BEGIN netdata cloud
-%if %{with bundled_protobuf}
-pushd externaldeps/protobuf/protobuf-%{protobuf_cpp_ver}
-%configure \
-    --disable-shared \
-    --without-zlib \
-    --disable-dependency-tracking \
-    --with-pic
-CFLAGS="${CFLAGS} -fPIC" %make_build
-popd
-cp -a externaldeps/protobuf/protobuf-%{protobuf_cpp_ver}/src externaldeps/protobuf
-%endif
-### END netdata cloud
-
 %cmake -G Ninja \
     -DCMAKE_INSTALL_PREFIX=/ \
 %if 0%{?rhel} && 0%{?rhel} == 8
     -DUSE_CXX_11=On \
+    -DENABLE_CLOUD=Off \
+%else
+    -DENABLE_CLOUD=On \
 %endif
 %if %{with cups}
     -DENABLE_PLUGIN_CUPS=On \
@@ -291,11 +253,7 @@ cp -a externaldeps/protobuf/protobuf-%{protobuf_cpp_ver}/src externaldeps/protob
     -DENABLE_PLUGIN_NFACCT=Off \
 %endif
     -DENABLE_PLUGIN_FREEIPMI=On \
-%if %{with bundled_protobuf}
-    -DENABLE_BUNDLED_PROTOBUF=On \
-%else
     -DENABLE_BUNDLED_PROTOBUF=Off \
-%endif
 %if %{with xenstat}
     -DENABLE_PLUGIN_XENSTAT=On \
 %else
@@ -317,7 +275,6 @@ cp -a externaldeps/protobuf/protobuf-%{protobuf_cpp_ver}/src externaldeps/protob
     -DENABLE_EXPORTER_MONGODB=Off \
 %endif
     -DENABLE_ACLK=On \
-    -DENABLE_CLOUD=On \
     -DENABLE_DBENGINE=On \
     -DENABLE_H2O=On \
     -DENABLE_PLUGIN_APPS=On \
@@ -328,6 +285,8 @@ cp -a externaldeps/protobuf/protobuf-%{protobuf_cpp_ver}/src externaldeps/protob
 %else
     -DENABLE_PLUGIN_GO=Off \
 %endif
+    -DENABLE_PLUGIN_CHARTS=On \
+    -DENABLE_PLUGIN_PYTHON=On \
     -DENABLE_PLUGIN_LOCAL_LISTENERS=On \
     -DENABLE_PLUGIN_PERF=On \
     -DENABLE_PLUGIN_SLABINFO=On \
@@ -372,7 +331,7 @@ rm -rf %{buildroot}%{_datadir}/%{name}/web/.well-known
 # Delete useless file (ubuntu)
 rm -f %{buildroot}%{_sysconfdir}/%{name}/conf.d/ebpf.d/ebpf_kernel_reject_list.txt
 
-for dir in charts.d health.d python.d statsd.d ; do
+for dir in charts.d health.d python.d statsd.d go.d ; do
   mkdir -p %{buildroot}%{_sysconfdir}/%{name}/${dir}
 done
 
@@ -384,6 +343,7 @@ rm -f %{buildroot}%{_sysconfdir}/%{name}/netdata-updater.conf
 rm -f %{buildroot}%{_libexecdir}/%{name}/netdata-updater.sh
 rm -rf %{buildroot}%{_prefix}/lib/netdata/system
 rm -rf %{buildroot}%{_localstatedir}/lib/%{name}/config
+
 
 %check
 %ctest
@@ -517,6 +477,10 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 
 %changelog
+* Sat Nov 09 2024 Didier Fabert <didier.fabert@gmail.com> 2.0.0-1
+- Update from upstream
+- Remove completely EOL EL7 support
+
 * Thu Oct 24 2024 Didier Fabert <didier.fabert@gmail.com> 1.47.5-1
 - Update from upstream
 

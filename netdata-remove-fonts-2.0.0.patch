@@ -1,15 +1,15 @@
 diff -rup a/src/web/gui/v1/dashboard_v1.cmake b/src/web/gui/v1/dashboard_v1.cmake
---- a/src/web/gui/v1/dashboard_v1.cmake	2024-06-19 16:15:34.440610738 +0200
-+++ b/src/web/gui/v1/dashboard_v1.cmake	2024-06-21 21:28:02.388766283 +0200
+--- a/src/web/gui/v1/dashboard_v1.cmake	2024-11-07 21:09:18.568649683 +0100
++++ b/src/web/gui/v1/dashboard_v1.cmake	2024-11-08 13:45:08.454564240 +0100
 @@ -30,11 +30,6 @@ src/web/gui/v1/css/bootstrap-theme-3.3.7
  src/web/gui/v1/css/bootstrap-toggle-2.2.2.min.css
  src/web/gui/v1/css/dashboard.css
- src/web/gui/v1/css/dashboard.slate.css COMPONENT netdata DESTINATION ${WEB_DEST}/css)
+ src/web/gui/v1/css/dashboard.slate.css COMPONENT dashboard DESTINATION ${WEB_DEST}/css)
 -    install(FILES src/web/gui/v1/fonts/glyphicons-halflings-regular.eot
 -src/web/gui/v1/fonts/glyphicons-halflings-regular.svg
 -src/web/gui/v1/fonts/glyphicons-halflings-regular.ttf
 -src/web/gui/v1/fonts/glyphicons-halflings-regular.woff
--src/web/gui/v1/fonts/glyphicons-halflings-regular.woff2 COMPONENT netdata DESTINATION ${WEB_DEST}/fonts)
+-src/web/gui/v1/fonts/glyphicons-halflings-regular.woff2 COMPONENT dashboard DESTINATION ${WEB_DEST}/fonts)
      install(FILES src/web/gui/v1/images/alert-128-orange.png
  src/web/gui/v1/images/alert-128-red.png
  src/web/gui/v1/images/alert-multi-size-orange.ico
