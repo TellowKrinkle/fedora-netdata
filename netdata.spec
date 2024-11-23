@@ -46,7 +46,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        2.0.0
+%global upver        2.0.3
 #global rcver        rc0
 
 # el8 only
@@ -477,6 +477,12 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 
 %changelog
+* Sat Nov 23 2024 Didier Fabert <didier.fabert@gmail.com> 2.0.3-1
+- Update from upstream
+
+* Fri Nov 15 2024 Didier Fabert <didier.fabert@gmail.com> 2.0.1-1
+- Update from upstream
+
 * Sat Nov 09 2024 Didier Fabert <didier.fabert@gmail.com> 2.0.0-1
 - Update from upstream
 - Remove completely EOL EL7 support
