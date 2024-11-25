@@ -56,7 +56,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see license REDISTRIBUTED.md
 License:        GPL-3.0-or-later
@@ -106,6 +106,7 @@ BuildRequires:  libyaml-devel
 BuildRequires:  ninja-build
 %if %{with plugin_go}
 BuildRequires:  golang >= 1.21
+BuildRequires:  go-rpm-macros
 %endif
 BuildRequires:  systemd-devel
 
@@ -221,7 +222,6 @@ rm -rf src/web/gui/v1/fonts/
 if [ -d src/web/gui/v2 ] ; then
     rm -rf src/web/gui/v2 src/web/gui/index.html
 fi
-cp -a src/web/gui/v1/index.html src/web/gui/index.html
 cp %{SOURCE5} .
 
 ### BEGIN go.d.plugin
@@ -344,6 +344,7 @@ rm -f %{buildroot}%{_libexecdir}/%{name}/netdata-updater.sh
 rm -rf %{buildroot}%{_prefix}/lib/netdata/system
 rm -rf %{buildroot}%{_localstatedir}/lib/%{name}/config
 
+cp -a %{buildroot}%{_datadir}/%{name}/web/v1/index.html %{buildroot}%{_datadir}/%{name}/web/index.html
 
 %check
 %ctest
@@ -477,6 +478,9 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 
 %changelog
+* Mon Nov 25 2024 Didier Fabert <didier.fabert@gmail.com> 2.0.3-2
+- Fix /usr/share/netdata/web/index.html not found
+
 * Sat Nov 23 2024 Didier Fabert <didier.fabert@gmail.com> 2.0.3-1
 - Update from upstream
 
