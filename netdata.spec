@@ -46,7 +46,7 @@ ExcludeArch: s390x
 %global  _hardened_build 1
 
 # Build release candidate
-%global upver        2.0.3
+%global upver        2.1.0
 #global rcver        rc0
 
 # el8 only
@@ -74,7 +74,7 @@ Source11:       https://github.com/netdata/libjudy/archive/v%{judy_ver}/libjudy-
 # Use create-go-vendor.sh script to build tarball with all go vendor parts
 Source20:       go.d.plugin-vendor-%{upver}%{?rcver:-%{rcver}}.tar.gz
 # Use make-shebang-patch.sh script to build patch
-Patch0:         netdata-fix-shebang-2.0.0.patch
+Patch0:         netdata-fix-shebang-2.1.0.patch
 Patch1:         netdata-remove-web-v2.patch
 %if 0%{?fedora}
 # Remove embedded font
@@ -478,6 +478,9 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 
 %changelog
+* Thu Dec 19 2024 Didier Fabert <didier.fabert@gmail.com> 2.1.0-1
+- Update from upstream
+
 * Mon Nov 25 2024 Didier Fabert <didier.fabert@gmail.com> 2.0.3-2
 - Fix /usr/share/netdata/web/index.html not found
 
