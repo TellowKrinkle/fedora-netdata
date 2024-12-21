@@ -33,7 +33,7 @@ ExcludeArch: s390x
 %bcond_without ml
 %bcond_without exporter_mongodb
 %bcond_with ebpf
-%if 0%{?fedora} && 0%{?fedora} >= 40
+%if 0%{?fedora} && 0%{?fedora} >= 41
 %bcond_without plugin_go
 %else
 %bcond_with plugin_go
@@ -56,7 +56,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see license REDISTRIBUTED.md
 License:        GPL-3.0-or-later
@@ -478,7 +478,10 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 
 %changelog
-* Thu Dec 19 2024 Didier Fabert <didier.fabert@gmail.com> 2.1.0-1
+* Sat Dec 21 2024 Didier Fabert <didier.fabert@gmail.com> 2.1.0-3
+- go-module cannot be built in fc40
+
+* Thu Dec 19 2024 Didier Fabert <didier.fabert@gmail.com> 2.1.0-2
 - Update from upstream
 
 * Mon Nov 25 2024 Didier Fabert <didier.fabert@gmail.com> 2.0.3-2
