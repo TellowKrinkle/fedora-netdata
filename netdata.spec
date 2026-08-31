@@ -51,7 +51,7 @@ ExcludeArch: s390x
 
 Name:           netdata
 Version:        %{upver}%{?rcver:~%{rcver}}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see license REDISTRIBUTED.md
 License:        GPL-3.0-or-later
@@ -68,6 +68,7 @@ Source20:       go.d.plugin-vendor-%{upver}%{?rcver:-%{rcver}}.tar.gz
 # Use make-shebang-patch.sh script to build patch
 Patch0:         netdata-fix-shebang-2.2.0.patch
 Patch1:         netdata-remove-web-v2.patch
+Patch2:         netdata-restore-python-sensors.patch
 %if 0%{?fedora}
 # Remove embedded font
 Patch10:        netdata-remove-fonts-2.0.0.patch
@@ -201,6 +202,7 @@ go plugin for netdata
 %setup -qn %{name}-%{upver}%{?rcver:-%{rcver}}
 %patch -P0 -p1
 %patch -P1 -p1
+%patch -P2 -p1
 %if 0%{?fedora}
 # Remove embedded font(added in requires)
 %patch -P10 -p1
@@ -484,6 +486,9 @@ echo "Netdata config should be edited with %{_libexecdir}/%{name}/edit-config"
 
 
 %changelog
+* Mon Aug 31 2026 TellowKrinkle <tellowkrinkle@gmail.com> - 2.2.6-3
+- Restore python sensors module
+
 * Mon Mar 10 2025 Zbigniew Jedrzejewski-Szmek  <zbyszek@in.waw.pl> - 2.2.6-2
 - Add sysusers.d config file to allow rpm to create users/groups automatically
 
