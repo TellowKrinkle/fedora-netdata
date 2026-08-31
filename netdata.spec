@@ -12,13 +12,6 @@ ExcludeArch: s390x
 %bcond_without netfilteracct
 %endif
 
-# Because judy-devel is not available in el8 for more than 1 year
-%if 0%{?rhel} && 0%{?rhel} == 8
-%bcond_without bundled_judy
-%else
-%bcond_with bundled_judy
-%endif
-
 # Only on fedora
 %if 0%{?fedora}
 %ifarch x86_64 aarch64
@@ -54,9 +47,6 @@ ExcludeArch: s390x
 %global upver        2.2.6
 #global rcver        rc0
 
-# el8 only
-%global judy_ver 1.0.5-netdata2
-
 %global netdata_conf_stock %{_prefix}/lib/%{name}
 
 Name:           netdata
@@ -72,8 +62,6 @@ Source1:        netdata.tmpfiles.conf
 Source3:        netdata.conf
 Source4:        netdata.profile
 Source5:        README-packager.md
-# Only for el8
-Source11:       https://github.com/netdata/libjudy/archive/v%{judy_ver}/libjudy-%{judy_ver}.tar.gz
 # Only for fedora 40+
 # Use create-go-vendor.sh script to build tarball with all go vendor parts
 Source20:       go.d.plugin-vendor-%{upver}%{?rcver:-%{rcver}}.tar.gz
@@ -94,11 +82,7 @@ BuildRequires:  freeipmi-devel
 BuildRequires:  httpd
 BuildRequires:  gcc
 BuildRequires:  libuv-devel
-%if %{with bundled_judy}
-BuildRequires:  libtool
-%else
 BuildRequires:  Judy-devel
-%endif
 BuildRequires:  lz4-devel
 BuildRequires:  openssl-devel
 BuildRequires:  libmnl-devel
