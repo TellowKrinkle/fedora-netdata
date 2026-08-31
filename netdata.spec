@@ -66,9 +66,8 @@ Summary:        Real-time performance monitoring
 # For a breakdown of the licensing, see license REDISTRIBUTED.md
 License:        GPL-3.0-or-later
 URL:            http://my-netdata.io
-Source0:        https://github.com/netdata/netdata/releases/download/v%{upver}%{?rcver:-%{rcver}}/%{name}-v%{upver}%{?rcver:-%{rcver}}.tar.gz
 # Use make-source.sh script to build tarball without closed source part
-#Source0:        %%{name}-%%{upver}%%{?rcver:-%%{rcver}}.tar.gz
+Source0:        %{name}-%{upver}%{?rcver:-%{rcver}}.tar.gz
 Source1:        netdata.tmpfiles.conf
 Source3:        netdata.conf
 Source4:        netdata.profile
@@ -215,7 +214,7 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 go plugin for netdata
 
 %prep
-%setup -qn %{name}-v%{upver}%{?rcver:-%{rcver}}
+%setup -qn %{name}-%{upver}%{?rcver:-%{rcver}}
 %patch -P0 -p1
 %patch -P1 -p1
 %if 0%{?fedora}
